@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-casual-repo-pipeline-run-
+spec:
+  workspaces:
+    - name: pipeline-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+  params:
+    - name: repository
+      value:
+        url: https://github.com/casualcore/casual-java.git
+        revision: "feature/3.2/integration-test2"
+  pipelineRef:
+    name: build-casual-repo-pipeline

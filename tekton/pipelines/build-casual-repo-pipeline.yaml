@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-casual-repo-pipeline
+spec:
+  workspaces:
+    - name: pipeline-workspace
+  params:
+    - name: repository
+      description: "Repository to build."
+      type: object
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repository.url)
+        - name: revision
+          value: $(params.repository.revision)
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
+    - name: build-image
+      runAfter:
+        - clone
+      taskRef:
+        name: buildah
+      params:
+        - name: DOCKERFILE
+          value: ./images/casual/docker/Dockerfile
+        - name: IMAGE
+          value: 192.168.68.130:5000/casual:0.0.1-SNAPSHOT
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace

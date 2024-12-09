@@ -1,0 +1,70 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: gradle
+  labels:
+    app.kubernetes.io/version: "0.4"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.17.0"
+    tekton.dev/displayName: Gradle
+    tekton.dev/categories: Build Tools
+    tekton.dev/tags: build-tool
+    tekton.dev/platforms: "linux/amd64,linux/s390x,linux/ppc64le"
+spec:
+  description: >-
+    This Task can be used to run a Gradle build.
+
+  workspaces:
+    - name: source
+      description: The workspace consisting of the gradle project.
+    - name: gradle-config
+      description: The workspace consisting of the custom gradle properties provided by the user.
+      optional: true
+  params:
+    - name: GRADLE_IMAGE
+      description: Gradle base image.
+      type: string
+      default: docker.io/library/gradle:jdk17@sha256:27ed98487dd9c155d555955084dfd33f32d9f7ac5a90a79b1323ab002a1a8b6e
+    - name: PROJECT_DIR
+      description: The directory containing build.gradle
+      type: string
+      default: "."
+    - name: GRADLE_COMMAND
+      description: The gradle command to run, use "./gradlew" for gradle wrapper.
+      type: string
+      default: "gradle"
+    - name: TASKS
+      description: 'The gradle tasks to run (default: build)'
+      type: array
+      default:
+        - build
+  steps:
+    - name: gradle-tasks
+      image: $(params.GRADLE_IMAGE)
+      env:
+        - name: GRADLE_USER_HOME
+          value: "/home/gradle"
+      workingDir: $(workspaces.source.path)/$(params.PROJECT_DIR)
+      args:
+        - "$(params.TASKS)"
+      script: |
+        #!/usr/bin/env bash
+
+        if [[ "$(workspaces.gradle-config.bound)" == "true" ]]; then
+          echo "gradle-config workspace is bound"
+          if [[ -f $(workspaces.gradle-config.path)/gradle.properties ]]; then
+            echo "copying gradle.properties to /home/gradle"
+            cp "$(workspaces.gradle-config.path)/gradle.properties" /home/gradle
+          fi
+        fi
+
+        cmd="$(params.GRADLE_COMMAND) $*"
+        echo "Running gradle task with command below"
+        echo "$cmd"
+        eval "$cmd"
+      volumeMounts:
+        - mountPath: /home/gradle
+          name: empty-dir
+  volumes:
+    - name: empty-dir
+      emptyDir: {}
