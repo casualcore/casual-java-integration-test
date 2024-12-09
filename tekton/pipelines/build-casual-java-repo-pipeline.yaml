@@ -39,9 +39,11 @@ spec:
         name: git-clone
       params:
         - name: url
-          value: $(params.repository.url)
+          value: $(params.repository-casual-java.url)
         - name: revision
-          value: $(params.repository.revision)
+          value: $(params.repository-casual-java.revision)
+        - name: subdirectory
+          value: "casual-java"
       workspaces:
         - name: output
           workspace: pipeline-workspace
