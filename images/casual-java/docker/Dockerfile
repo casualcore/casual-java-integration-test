@@ -4,6 +4,8 @@ USER 1001
 
 RUN mkdir /opt/jboss/wildfly/casual
 
+ARG CASUAL_JAVA_SRC="casual-java"
+
 ENV CASUAL_VERSION 3.2.49
 ENV CASUAL_CALLER_VERSION 3.2.22
 ENV OBJENESIS_VERSION 3.4
@@ -13,10 +15,10 @@ RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/se/laz/casu
 
 ENV CASUAL_ROOT /opt/jboss/wildfly/casual
 
-COPY dist/*.jar $CASUAL_ROOT
-COPY dist/*.ear $CASUAL_ROOT
+COPY $CASUAL_JAVA_SRC/dist/*.jar $CASUAL_ROOT
+COPY $CASUAL_JAVA_SRC/dist/*.ear $CASUAL_ROOT
 RUN mkdir $CASUAL_ROOT/configs
-COPY casual/casual-api/src/test/resources/* $CASUAL_ROOT/configs
+COPY $CASUAL_JAVA_SRC/casual/casual-api/src/test/resources/* $CASUAL_ROOT/configs
 
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casual \
 	--resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \

@@ -14,6 +14,14 @@ spec:
           type: string
         revision:
           type: string
+    - name: repository-casual-java
+      description: "Repository to build casual-java."
+      type: object
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
   tasks:
     - name: clone
       taskRef:
@@ -23,14 +31,24 @@ spec:
           value: $(params.repository.url)
         - name: revision
           value: $(params.repository.revision)
-        - name: subdirectory
-          value: "casual-java"
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
+    - name: clone-casual-java
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repository.url)
+        - name: revision
+          value: $(params.repository.revision)
       workspaces:
         - name: output
           workspace: pipeline-workspace
     - name: build
       runAfter:
         - clone
+        - clone-casual-java
       taskRef:
         name: gradle
       params:

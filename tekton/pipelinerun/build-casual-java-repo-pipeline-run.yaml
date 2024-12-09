@@ -15,7 +15,11 @@ spec:
   params:
     - name: repository
       value:
+        url: https://github.com/casualcore/casual-java-integration-test.git
+        revision: "feature/tekton-build"
+    - name: repository-casual-java
+      value:
         url: https://github.com/casualcore/casual-java.git
-        revision: "feature/3.2/integration-test2"
+        revision: "3.2.49"
   pipelineRef:
     name: build-casual-java-repo-pipeline
