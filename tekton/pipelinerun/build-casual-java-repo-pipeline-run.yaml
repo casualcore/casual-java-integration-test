@@ -20,6 +20,6 @@ spec:
     - name: repository-casual-java
       value:
         url: https://github.com/casualcore/casual-java.git
-        revision: "3.2.49"
+        revision: "feature/3.2/initialise-fieled-on-startup"
   pipelineRef:
     name: build-casual-java-repo-pipeline

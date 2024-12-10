@@ -74,7 +74,7 @@ spec:
         - name: DOCKERFILE
           value: ./images/casual-java/docker/Dockerfile
         - name: IMAGE
-          value: 192.168.68.130:5000/casual-java:3.2.49
+          value: 192.168.68.130:5000/casual-java:3.2.50-SNAPSHOT
         - name: TLSVERIFY
           value: 'false'
       workspaces:
