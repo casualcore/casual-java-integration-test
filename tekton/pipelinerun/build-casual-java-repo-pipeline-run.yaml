@@ -13,6 +13,8 @@ spec:
             requests:
               storage: 1Gi
   params:
+    - name: image-registry
+      value: 192.168.68.130:5000
     - name: repository
       value:
         url: https://github.com/casualcore/casual-java-integration-test.git
@@ -20,6 +22,10 @@ spec:
     - name: repository-casual-java
       value:
         url: https://github.com/casualcore/casual-java.git
-        revision: "feature/3.2/initialise-fieled-on-startup"
+        revision: "dev"
+    - name: casual-java-image
+      value:
+        name: "casual-java"
+        version: "3.3"
   pipelineRef:
     name: build-casual-java-repo-pipeline

@@ -6,9 +6,9 @@ RUN mkdir /opt/jboss/wildfly/casual
 
 ARG CASUAL_JAVA_SRC="casual-java"
 
-ENV CASUAL_VERSION 3.2.50-SNAPSHOT
-ENV CASUAL_CALLER_VERSION 3.2.22
-ENV OBJENESIS_VERSION 3.4
+ARG CASUAL_VERSION=3.3.1
+ARG CASUAL_CALLER_VERSION=3.2.22
+ARG OBJENESIS_VERSION=3.4
 
 RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/org/objenesis/objenesis/$OBJENESIS_VERSION/objenesis-$OBJENESIS_VERSION.jar
 RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/se/laz/casual/casual-caller-app/$CASUAL_CALLER_VERSION/casual-caller-app-$CASUAL_CALLER_VERSION.ear
