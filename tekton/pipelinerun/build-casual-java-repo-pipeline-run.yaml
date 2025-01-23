@@ -22,10 +22,10 @@ spec:
     - name: repository-casual-java
       value:
         url: https://github.com/casualcore/casual-java.git
-        revision: "dev"
+        revision: "feature/testcontainers-test"
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.3"
+        version: "3.3.2-SNAPSHOT"
   pipelineRef:
     name: build-casual-java-repo-pipeline

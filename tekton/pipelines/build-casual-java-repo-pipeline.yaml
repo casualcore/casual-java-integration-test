@@ -76,6 +76,22 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+    - name: integrationTest
+      runAfter:
+        - build
+      taskRef:
+        name: gradle
+      params:
+        - name: PROJECT_DIR
+          value: "./casual-java"
+        - name: GRADLE_COMMAND
+          value: "./gradlew"
+        - name: TASKS
+          value:
+            - intTest
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
     - name: build-image
       runAfter:
         - build
