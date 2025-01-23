@@ -76,7 +76,7 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
-    - name: integrationTest
+    - name: integration-test
       runAfter:
         - build
       taskRef:
