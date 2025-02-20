@@ -3,6 +3,7 @@ kind: PipelineRun
 metadata:
   generateName: build-casual-java-repo-pipeline-run-
 spec:
+  serviceAccountName: tekton-pipeline-test
   workspaces:
     - name: pipeline-workspace
       volumeClaimTemplate:

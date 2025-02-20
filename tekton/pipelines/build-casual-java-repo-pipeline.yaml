@@ -92,21 +92,21 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
-    - name: build-image
-      runAfter:
-        - build
-      taskRef:
-        name: buildah
-      params:
-        - name: DOCKERFILE
-          value: ./images/casual-java/docker/Dockerfile
-        - name: IMAGE
-          value: $(params.image-registry)/$(params.casual-java-image.name):$(params.casual-java-image.version)
-        - name: BUILD_ARGS
-          value:
-            - "CASUAL_VERSION=3.3.1"
-        - name: TLSVERIFY
-          value: 'false'
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace
+#    - name: build-image
+#      runAfter:
+#        - build
+#      taskRef:
+#        name: buildah
+#      params:
+#        - name: DOCKERFILE
+#          value: ./images/casual-java/docker/Dockerfile
+#        - name: IMAGE
+#          value: $(params.image-registry)/$(params.casual-java-image.name):$(params.casual-java-image.version)
+#        - name: BUILD_ARGS
+#          value:
+#            - "CASUAL_VERSION=3.3.1"
+#        - name: TLSVERIFY
+#          value: 'false'
+#      workspaces:
+#        - name: source
+#          workspace: pipeline-workspace
