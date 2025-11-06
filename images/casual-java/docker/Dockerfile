@@ -6,6 +6,7 @@ USER 1001
 RUN mkdir /opt/jboss/wildfly/casual
 
 ARG CASUAL_JAVA_SRC="casual-java"
+ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps"
 
 ARG CASUAL_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
@@ -35,7 +36,7 @@ COPY images/casual-java/docker/files/setup.cli /tmp
 RUN ${WILDFLY_HOME}/bin/jboss-cli.sh --file=/tmp/setup.cli
 RUN rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current
 
-COPY images/casual-java/docker/files/*.war $WILDFLY_HOME/standalone/deployments/
+COPY $CASUAL_JAVA_TEST_APPS_SRC/dist/*.war $WILDFLY_HOME/standalone/deployments/
 
 USER root
 

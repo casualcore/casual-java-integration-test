@@ -22,12 +22,12 @@ spec:
     - name: repository-casual-java
       value:
         revision: "dev"
-    - name: repository-casual-java-test-app
+    - name: repository-casual-java-test-apps
       value:
         revision: "feature/2.0/simple-fielded-test"
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.3.9-SNAPSHOT"
+        version: "3.3.8"
   pipelineRef:
     name: build-casual-java-repo-pipeline

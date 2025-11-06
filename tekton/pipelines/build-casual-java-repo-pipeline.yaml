@@ -26,8 +26,8 @@ spec:
           type: string
         default:
           url: https://github.com/casualcore/casual-java.git
-    - name: repository-casual-java-test-app
-      description: "Repository for casual-java-test-app."
+    - name: repository-casual-java-test-apps
+      description: "Repository for casual-java-test-apps."
       type: object
       properties:
         url:
@@ -35,7 +35,7 @@ spec:
         revision:
           type: string
         default:
-          url: https://github.com/casualcore/casual-java-test-app.git
+          url: https://github.com/casualcore/casual-java-test-apps.git
     - name: image-registry
       description: "Image registry url."
       type: string
@@ -74,16 +74,16 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-workspace
-    - name: clone-casual-java-test-app
+    - name: clone-casual-java-test-apps
       taskRef:
         name: git-clone
       params:
         - name: url
-          value: $(params.repository-casual-java-test-app.url)
+          value: $(params.repository-casual-java-test-apps.url)
         - name: revision
-          value: $(params.repository-casual-java-test-app.revision)
+          value: $(params.repository-casual-java-test-apps.revision)
         - name: subdirectory
-          value: "casual-java-test-app"
+          value: "casual-java-test-apps"
       workspaces:
         - name: output
           workspace: pipeline-workspace
@@ -106,12 +106,12 @@ spec:
           workspace: pipeline-workspace
     - name: build-casual-java-test-app
       runAfter:
-        - clone-casual-java-test-app
+        - clone-casual-java-test-apps
       taskRef:
         name: gradle
       params:
         - name: PROJECT_DIR
-          value: "./casual-java-test-app"
+          value: "./casual-java-test-apps"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS
@@ -141,7 +141,7 @@ spec:
       runAfter:
         - clone-casual-java-integration-test
         - build-casual-java
-        - build-casual-java-test-app
+        - build-casual-java-test-apps
       taskRef:
         name: buildah
       params:
