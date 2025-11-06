@@ -1,4 +1,5 @@
-FROM quay.io/wildfly/wildfly:32.0.1.Final-jdk21
+ARG BASE_IMAGE_VERSION=32.0.1.Final-jdk21
+FROM quay.io/wildfly/wildfly:${BASE_IMAGE_VERSION}
 
 USER 1001
 
@@ -6,7 +7,7 @@ RUN mkdir /opt/jboss/wildfly/casual
 
 ARG CASUAL_JAVA_SRC="casual-java"
 
-ARG CASUAL_VERSION=3.3.1
+ARG CASUAL_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
 ARG OBJENESIS_VERSION=3.4
 
@@ -21,8 +22,12 @@ RUN mkdir $CASUAL_ROOT/configs
 COPY $CASUAL_JAVA_SRC/casual/casual-api/src/test/resources/* $CASUAL_ROOT/configs
 
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casual \
-	--resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar:/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
-                --dependencies=javaee.api,sun.jdk"
+--resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar \
+/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
+    --dependencies=javaee.api,sun.jdk"
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly
 

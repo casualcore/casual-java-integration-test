@@ -16,17 +16,18 @@ spec:
   params:
     - name: image-registry
       value: 192.168.68.130:5000
-    - name: repository
+    - name: repository-casual-java-integration-test
       value:
-        url: https://github.com/casualcore/casual-java-integration-test.git
         revision: "feature/tekton-build"
     - name: repository-casual-java
       value:
-        url: https://github.com/casualcore/casual-java.git
-        revision: "feature/testcontainers-test"
+        revision: "dev"
+    - name: repository-casual-java-test-app
+      value:
+        revision: "feature/2.0/simple-fielded-test"
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.3.2-SNAPSHOT"
+        version: "3.3.9-SNAPSHOT"
   pipelineRef:
     name: build-casual-java-repo-pipeline

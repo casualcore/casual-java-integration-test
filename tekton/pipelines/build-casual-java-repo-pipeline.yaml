@@ -6,22 +6,36 @@ spec:
   workspaces:
     - name: pipeline-workspace
   params:
-    - name: repository
-      description: "Repository to build."
+    - name: repository-casual-java-integration-test
+      description: "Repository for casual-java-integration-test."
       type: object
       properties:
         url:
           type: string
         revision:
           type: string
+        default:
+          url: https://github.com/casualcore/casual-java-integration-test.git
     - name: repository-casual-java
-      description: "Repository to build casual-java."
+      description: "Repository for casual-java."
       type: object
       properties:
         url:
           type: string
         revision:
           type: string
+        default:
+          url: https://github.com/casualcore/casual-java.git
+    - name: repository-casual-java-test-app
+      description: "Repository for casual-java-test-app."
+      type: object
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
+        default:
+          url: https://github.com/casualcore/casual-java-test-app.git
     - name: image-registry
       description: "Image registry url."
       type: string
@@ -34,14 +48,16 @@ spec:
         version:
           type: string
   tasks:
-    - name: clone
+    - name: clone-casual-java-integration-test
       taskRef:
         name: git-clone
       params:
         - name: url
-          value: $(params.repository.url)
+          value: $(params.repository-casual-java-integration-test.url)
         - name: revision
-          value: $(params.repository.revision)
+          value: $(params.repository-casual-java-integration-test.revision)
+        - name: subdirectory
+          value: "casual-java-integration-test"
       workspaces:
         - name: output
           workspace: pipeline-workspace
@@ -58,9 +74,21 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-workspace
-    - name: build
+    - name: clone-casual-java-test-app
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repository-casual-java-test-app.url)
+        - name: revision
+          value: $(params.repository-casual-java-test-app.revision)
+        - name: subdirectory
+          value: "casual-java-test-app"
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
+    - name: build-casual-java
       runAfter:
-        - clone
         - clone-casual-java
       taskRef:
         name: gradle
@@ -76,37 +104,56 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
-    - name: integration-test
+    - name: build-casual-java-test-app
       runAfter:
-        - build
+        - clone-casual-java-test-app
       taskRef:
         name: gradle
       params:
         - name: PROJECT_DIR
-          value: "./casual-java"
+          value: "./casual-java-test-app"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS
           value:
-            - intTest
+            - assemble
+            - dist
       workspaces:
         - name: source
           workspace: pipeline-workspace
-#    - name: build-image
+#    - name: integration-test
 #      runAfter:
 #        - build
 #      taskRef:
-#        name: buildah
+#        name: gradle
 #      params:
-#        - name: DOCKERFILE
-#          value: ./images/casual-java/docker/Dockerfile
-#        - name: IMAGE
-#          value: $(params.image-registry)/$(params.casual-java-image.name):$(params.casual-java-image.version)
-#        - name: BUILD_ARGS
+#        - name: PROJECT_DIR
+#          value: "./casual-java"
+#        - name: GRADLE_COMMAND
+#          value: "./gradlew"
+#        - name: TASKS
 #          value:
-#            - "CASUAL_VERSION=3.3.1"
-#        - name: TLSVERIFY
-#          value: 'false'
+#            - intTest
 #      workspaces:
 #        - name: source
 #          workspace: pipeline-workspace
+    - name: build-image
+      runAfter:
+        - clone-casual-java-integration-test
+        - build-casual-java
+        - build-casual-java-test-app
+      taskRef:
+        name: buildah
+      params:
+        - name: DOCKERFILE
+          value: ./casual-java-integration-test/images/casual-java/docker/Dockerfile
+        - name: IMAGE
+          value: $(params.image-registry)/$(params.casual-java-image.name):$(params.casual-java-image.version)
+        - name: BUILD_ARGS
+          value:
+            - "CASUAL_VERSION=$(params.casual-java-image.version)"
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
