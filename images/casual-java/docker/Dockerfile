@@ -26,6 +26,7 @@ COPY $CASUAL_JAVA_SRC/casual/casual-api/src/test/resources/* $CASUAL_ROOT/config
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casual \
 --resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
