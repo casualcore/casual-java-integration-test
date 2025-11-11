@@ -6,7 +6,7 @@ USER 1001
 RUN mkdir /opt/jboss/wildfly/casual
 
 ARG CASUAL_JAVA_SRC="casual-java"
-ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps"
+ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps/casual-java-test-app"
 
 ARG CASUAL_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
