@@ -14,8 +14,8 @@ spec:
           type: string
         revision:
           type: string
-        default:
-          url: https://github.com/casualcore/casual-java-integration-test.git
+      default:
+        url: https://github.com/casualcore/casual-java-integration-test.git
     - name: repository-casual-java
       description: "Repository for casual-java."
       type: object
@@ -24,8 +24,8 @@ spec:
           type: string
         revision:
           type: string
-        default:
-          url: https://github.com/casualcore/casual-java.git
+      default:
+        url: https://github.com/casualcore/casual-java.git
     - name: repository-casual-java-test-apps
       description: "Repository for casual-java-test-apps."
       type: object
@@ -34,8 +34,8 @@ spec:
           type: string
         revision:
           type: string
-        default:
-          url: https://github.com/casualcore/casual-java-test-apps.git
+      default:
+        url: https://github.com/casualcore/casual-java-test-apps.git
     - name: image-registry
       description: "Image registry url."
       type: string
@@ -104,14 +104,14 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
-    - name: build-casual-java-test-app
+    - name: build-casual-java-test-apps
       runAfter:
         - clone-casual-java-test-apps
       taskRef:
         name: gradle
       params:
         - name: PROJECT_DIR
-          value: "./casual-java-test-apps"
+          value: "./casual-java-test-apps/casual-java-test-app"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS

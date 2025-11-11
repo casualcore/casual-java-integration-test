@@ -26,8 +26,8 @@ RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casu
 --resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar \
-/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
+:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar\
+:/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
     --dependencies=javaee.api,sun.jdk"
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly
