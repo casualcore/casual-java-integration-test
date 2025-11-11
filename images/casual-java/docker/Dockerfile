@@ -7,6 +7,7 @@ RUN mkdir /opt/jboss/wildfly/casual
 
 ARG CASUAL_JAVA_SRC="casual-java"
 ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps/casual-java-test-app"
+ARG CASUAL_JAVA_INTEGRATION_TEST_SRC="casual-java-integration-test"
 
 ARG CASUAL_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
@@ -32,7 +33,7 @@ RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casu
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly
 
-COPY images/casual-java/docker/files/setup.cli /tmp
+COPY $CASUAL_JAVA_INTEGRATION_TEST_SRC/images/casual-java/docker/files/setup.cli /tmp
 RUN ${WILDFLY_HOME}/bin/jboss-cli.sh --file=/tmp/setup.cli
 RUN rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current
 
