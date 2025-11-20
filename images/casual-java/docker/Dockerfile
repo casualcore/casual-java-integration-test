@@ -29,7 +29,6 @@ RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casu
 :/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-json-provider-gson-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
     --dependencies=javaee.api,sun.jdk"
 
