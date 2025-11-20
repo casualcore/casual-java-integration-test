@@ -5,15 +5,17 @@ USER 1001
 
 RUN mkdir /opt/jboss/wildfly/casual
 
+RUN $JBOSS_HOME/bin/add-user.sh admin admin --silent
+
 ARG CASUAL_JAVA_SRC="casual-java"
 ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps/casual-java-test-app"
 ARG CASUAL_JAVA_INTEGRATION_TEST_SRC="casual-java-integration-test"
 
 ARG CASUAL_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
-ARG OBJENESIS_VERSION=3.4
+#ARG OBJENESIS_VERSION=3.4
 
-RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/org/objenesis/objenesis/$OBJENESIS_VERSION/objenesis-$OBJENESIS_VERSION.jar
+#RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/org/objenesis/objenesis/$OBJENESIS_VERSION/objenesis-$OBJENESIS_VERSION.jar
 RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/se/laz/casual/casual-caller-app/$CASUAL_CALLER_VERSION/casual-caller-app-$CASUAL_CALLER_VERSION.ear
 
 ENV CASUAL_ROOT /opt/jboss/wildfly/casual
@@ -28,9 +30,7 @@ RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casu
 :/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-json-provider-gson-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/objenesis-${OBJENESIS_VERSION}.jar \
+:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar \
     --dependencies=javaee.api,sun.jdk"
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly
