@@ -35,7 +35,7 @@ spec:
         - name: DOCKERFILE
           value: ./images/casual/docker/Dockerfile
         - name: IMAGE
-          value: 192.168.68.130:5000/casual:0.0.1-SNAPSHOT
+          value: 192.168.68.130:5000/casual:0.0.2-SNAPSHOT
         - name: TLSVERIFY
           value: 'false'
       workspaces:
