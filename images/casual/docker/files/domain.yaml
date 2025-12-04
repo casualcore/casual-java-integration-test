@@ -10,7 +10,7 @@ domain:
           connections:
             - address: 0.0.0.0:7771
   queue:
-    note: "retry.count - if number of rollbacks is greater, message is moved to error-queue  retry.delay - the amount of time before the message is available for consumption, after rollback\n"
+    note: "Example queue setup."
     default:
       queue:
         retry:
@@ -18,42 +18,10 @@ domain:
           delay: "20s"
       directory: "${CASUAL_DOMAIN_HOME}/queue/groups"
     groups:
-      - alias: "A"
-        note: "will get default queuebase: ${CASUAL_DOMAIN_HOME}/queue/groups/A.qb"
+      - alias: "EXAMPLE"
         queues:
-          - name: "a1"
-          - name: "a2"
-            retry:
-              count: 10
-              delay: "100ms"
-            note: "after 10 rollbacked dequeues, message is moved to a2.error"
-          - name: "a3"
-          - name: "a4"
-      - alias: "B"
-        queuebase: "/some/fast/disk/queue/groupB.qb"
-        queues:
-          - name: "b1"
-          - name: "b2"
-            retry:
-              count: 20
-            note: "after 20 rollbacked dequeues, message is moved to b2.error. retry.delay is 'inherited' from default, if any"
-      - alias: "C"
-        queuebase: ":memory:"
-        note: "group is an in-memory queue, hence no persistence"
-        queues:
-          - name: "c1"
-          - name: "c2"
-#    note: "Example queue setup."
-#    default:
-#      queue:
-#        retry: 0
-#        delay: "1s"
-#      directory: "${CASUAL_HOME}/queue/groups"
-#    groups:
-#      - alias: "EXAMPLE"
-#        queues:
-#          - name: "ex1"
-#          - name: "ex2"
+          - name: "ex1"
+          - name: "ex2"
   name: test-domain
   servers:
     - instances: 1
