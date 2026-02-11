@@ -14,6 +14,17 @@ spec:
           type: string
         revision:
           type: string
+    - name: image-registry
+      description: "Image registry url."
+      type: string
+    - name: casual-image
+      description: "Image details for created casual image."
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
   tasks:
     - name: clone
       taskRef:
@@ -35,7 +46,10 @@ spec:
         - name: DOCKERFILE
           value: ./images/casual/docker/Dockerfile
         - name: IMAGE
-          value: 192.168.68.130:5000/casual:0.0.2-SNAPSHOT
+          value: $(params.image-registry)/$(params.casual-image.name):$(params.casual-image.version)
+        - name: BUILD_ARGS
+          value:
+            - "BASE_IMAGE_VERSION=$(params.casual-image.version)"
         - name: TLSVERIFY
           value: 'false'
       workspaces:

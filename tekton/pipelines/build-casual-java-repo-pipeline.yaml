@@ -24,8 +24,26 @@ spec:
           type: string
         revision:
           type: string
+        build:
+          type: string
       default:
         url: https://github.com/casualcore/casual-java.git
+        revision: dev
+        build: "false"
+    - name: repository-casual-caller
+      description: "Repository for casual-caller."
+      type: object
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
+        build:
+          type: string
+      default:
+        url: https://github.com/casualcore/casual-caller.git
+        revision: dev
+        build: "false"
     - name: repository-casual-java-test-apps
       description: "Repository for casual-java-test-apps."
       type: object
@@ -34,8 +52,11 @@ spec:
           type: string
         revision:
           type: string
+        build:
+          type: string
       default:
         url: https://github.com/casualcore/casual-java-test-apps.git
+        build: "true"
     - name: image-registry
       description: "Image registry url."
       type: string
@@ -74,6 +95,19 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-workspace
+    - name: clone-casual-caller
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repository-casual-caller.url)
+        - name: revision
+          value: $(params.repository-casual-caller.revision)
+        - name: subdirectory
+          value: "casual-caller"
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
     - name: clone-casual-java-test-apps
       taskRef:
         name: git-clone
@@ -104,6 +138,31 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+      when:
+        - input: "$(params.repository-casual-java.build)"
+          operator: in
+          values: [ "true" ]
+    - name: build-casual-caller
+      runAfter:
+        - clone-casual-caller
+      taskRef:
+        name: gradle
+      params:
+        - name: PROJECT_DIR
+          value: "./casual-caller"
+        - name: GRADLE_COMMAND
+          value: "./gradlew"
+        - name: TASKS
+          value:
+            - assemble
+            - dist
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      when:
+        - input: "$(params.repository-casual-caller.build)"
+          operator: in
+          values: [ "true" ]
     - name: build-casual-java-test-apps
       runAfter:
         - clone-casual-java-test-apps
@@ -118,6 +177,30 @@ spec:
           value:
             - assemble
             - dist
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      when:
+        - input: "$(params.repository-casual-java-test-apps.build)"
+          operator: in
+          values: [ "true" ]
+    - name: prepare-image-artifacts
+      runAfter:
+        - clone-casual-java-integration-test
+        - build-casual-java
+        - build-casual-caller
+        - build-casual-java-test-apps
+      taskRef:
+        name: prepare-image-artifacts
+      params:
+        - name: PROJECT_DIR
+          value: "./casual-java-test-apps/casual-java-test-app"
+        - name: built-casual-java
+          value: "$(params.repository-casual-java.build)"
+        - name: built-casual-caller
+          value: "$(params.repository-casual-caller.build)"
+        - name: built-casual-java-test-apps
+          value: "$(params.repository-casual-java-test-apps.build)"
       workspaces:
         - name: source
           workspace: pipeline-workspace
@@ -139,19 +222,20 @@ spec:
 #          workspace: pipeline-workspace
     - name: build-image
       runAfter:
-        - clone-casual-java-integration-test
-        - build-casual-java
-        - build-casual-java-test-apps
+        - prepare-image-artifacts
       taskRef:
         name: buildah
       params:
         - name: DOCKERFILE
           value: ./casual-java-integration-test/images/casual-java/docker/Dockerfile
+        - name: CONTEXT
+          value: ./casual-java-integration-test/images/casual-java/docker/
         - name: IMAGE
           value: $(params.image-registry)/$(params.casual-java-image.name):$(params.casual-java-image.version)
         - name: BUILD_ARGS
           value:
-            - "CASUAL_VERSION=$(params.casual-java-image.version)"
+            - "CASUAL_JAVA_VERSION=$(tasks.prepare-image-artifacts.results.casual-java-version)"
+            - "CASUAL_CALLER_VERSION=$(tasks.prepare-image-artifacts.results.casual-caller-version)"
         - name: TLSVERIFY
           value: 'false'
       workspaces:

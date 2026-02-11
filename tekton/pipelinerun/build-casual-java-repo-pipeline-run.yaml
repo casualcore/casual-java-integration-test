@@ -21,13 +21,19 @@ spec:
         revision: "feature/tekton-build"
     - name: repository-casual-java
       value:
+        revision: "3.3.9"
+        build: "false"
+    - name: repository-casual-caller
+      value:
         revision: "dev"
+        build: "false"
     - name: repository-casual-java-test-apps
       value:
-        revision: "feature/2.0/simple-fielded-test"
+        revision: "dev"
+        build: "true"
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.3.8"
+        version: "3.3.10-SNAPSHOT"
   pipelineRef:
     name: build-casual-java-repo-pipeline

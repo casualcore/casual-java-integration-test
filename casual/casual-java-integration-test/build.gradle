@@ -14,6 +14,7 @@ defaultTasks 'build'
 
 dependencies {
 
+    integrationImplementation libs.javaee_api
     integrationImplementation libs.tdk8s
     integrationRuntimeOnly("org.eclipse.parsson:jakarta.json:1.1.7")
 

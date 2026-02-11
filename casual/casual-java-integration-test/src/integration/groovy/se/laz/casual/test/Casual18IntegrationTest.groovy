@@ -11,6 +11,6 @@ class Casual18IntegrationTest extends AbstractCasualIntegrationTest
     @Override
     String getCasualImage()
     {
-        return CasualResources.CASUAL_CONTAINER_IMAGE_17
+        return CasualResources.CASUAL_CONTAINER_IMAGE_18
     }
 }
