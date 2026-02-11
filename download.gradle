@@ -21,17 +21,18 @@ dependencies {
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-jca-app:${casualJavaVersion}"
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-inbound-startup-trigger-app:${casualJavaVersion}"
 
-    downloadCasualCallerRuntimeOnly "se.laz.casual:casual-caller-app:${casualCallerVersion}"
+    //https://docs.gradle.org/current/userguide/resolving_specific_artifacts.html @extension to select ear, not jar.
+    downloadCasualCallerRuntimeOnly "se.laz.casual:casual-caller-app:${casualCallerVersion}@ear"
 }
 
 task downloadCasualJava( type: Copy)
 {
     from sourceSets.downloadCasualJava.runtimeClasspath
-    into 'runtime/'
+    into 'build/runtime/'
 }
 
 task downloadCasualCaller( type: Copy)
 {
     from sourceSets.downloadCasualCaller.runtimeClasspath
-    into 'runtime/'
+    into 'build/runtime/'
 }
