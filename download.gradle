@@ -18,7 +18,8 @@ dependencies {
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-inbound-handler-api:${casualJavaVersion}"
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-service-discovery-extension:${casualJavaVersion}"
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-event-api:${casualJavaVersion}"
-    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-jca-app:${casualJavaVersion}"
+    //https://docs.gradle.org/current/userguide/resolving_specific_artifacts.html @extension to select ear, not jar.
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-jca-app:${casualJavaVersion}@ear"
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-inbound-startup-trigger-app:${casualJavaVersion}"
 
     //https://docs.gradle.org/current/userguide/resolving_specific_artifacts.html @extension to select ear, not jar.
