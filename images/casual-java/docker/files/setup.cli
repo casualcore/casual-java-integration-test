@@ -6,7 +6,7 @@
 
 embed-server --server-config=standalone-full.xml --std-out=echo
 
-set CASUAL_VERSION=${env.CASUAL_VERSION}
+set CASUAL_JAVA_VERSION=${env.CASUAL_JAVA_VERSION}
 set CASUAL_CALLER_VERSION=${env.CASUAL_CALLER_VERSION}
 set CASUAL_ROOT=${env.CASUAL_ROOT}
 set CASUAL_HOST=${env.CASUAL_HOST}
@@ -20,7 +20,7 @@ set CASUAL_PORT=${env.CASUAL_PORT}
 
 # configure casual RA
 set baseNode=/subsystem=resource-adapters/resource-adapter=casual-jca
-$baseNode:add(archive=casual-jca-app-$CASUAL_VERSION.ear#casual-jca.rar,transaction-support=XATransaction)
+$baseNode:add(archive=casual-jca-app-$CASUAL_JAVA_VERSION.ear#casual-jca.rar,transaction-support=XATransaction)
 
 set connectionDefinitionNode=$baseNode/connection-definitions=casual-pool
 $connectionDefinitionNode:add(\
@@ -34,7 +34,7 @@ $connectionDefinitionNode/config-properties=PortNumber:add(value=$CASUAL_PORT)
 $connectionDefinitionNode/config-properties=NetworkConnectionPoolName:add(value=pool-one)
 $connectionDefinitionNode/config-properties=NetworkConnectionPoolSize:add(value=1)
 
-deploy $CASUAL_ROOT/casual-jca-app-$CASUAL_VERSION.ear
+deploy $CASUAL_ROOT/casual-jca-app-$CASUAL_JAVA_VERSION.ear
 deploy $CASUAL_ROOT/casual-caller-app-$CASUAL_CALLER_VERSION.ear
 
 stop-embedded-server

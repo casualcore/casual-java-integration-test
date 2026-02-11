@@ -8,29 +8,26 @@ RUN mkdir /opt/jboss/wildfly/casual
 RUN $JBOSS_HOME/bin/add-user.sh admin admin --silent
 
 ARG CASUAL_JAVA_SRC="casual-java"
+ARG CASUAL_CALLER_SRC="casual-caller"
 ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps/casual-java-test-app"
 ARG CASUAL_JAVA_INTEGRATION_TEST_SRC="casual-java-integration-test"
 
-ARG CASUAL_VERSION=3.3.8
+ARG CASUAL_JAVA_VERSION=3.3.8
 ARG CASUAL_CALLER_VERSION=3.2.22
-#ARG OBJENESIS_VERSION=3.4
-
-#RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/org/objenesis/objenesis/$OBJENESIS_VERSION/objenesis-$OBJENESIS_VERSION.jar
-RUN wget -P /opt/jboss/wildfly/casual https://repo1.maven.org/maven2/se/laz/casual/casual-caller-app/$CASUAL_CALLER_VERSION/casual-caller-app-$CASUAL_CALLER_VERSION.ear
 
 ENV CASUAL_ROOT /opt/jboss/wildfly/casual
 
-COPY $CASUAL_JAVA_SRC/dist/*.jar $CASUAL_ROOT
-COPY $CASUAL_JAVA_SRC/dist/*.ear $CASUAL_ROOT
+COPY $CASUAL_JAVA_INTEGRATION_TEST_SRC/runtime/*.jar $CASUAL_ROOT
+COPY $CASUAL_JAVA_INTEGRATION_TEST_SRC/runtime/*.ear $CASUAL_ROOT
 RUN mkdir $CASUAL_ROOT/configs
 COPY $CASUAL_JAVA_SRC/casual/casual-api/src/test/resources/* $CASUAL_ROOT/configs
 
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casual \
---resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-api-${CASUAL_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_VERSION}.jar \
+--resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_JAVA_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_JAVA_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_JAVA_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-api-${CASUAL_JAVA_VERSION}.jar\
+:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_JAVA_VERSION}.jar \
     --dependencies=javaee.api,sun.jdk"
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly

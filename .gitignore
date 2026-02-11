@@ -1,1 +1,19 @@
-.idea
+[Bb]uild/
+.idea/
+javadoc/
+docs/source/casual-docs/
+docs/source/version
+.qodo/
+*.iml
+*.class
+*.jar
+.gradle/
+# emacs #
+*~
+*.orig
+dist/
+out/
+runtime/
+gradle.properties
+secret.*
+__pycache__/

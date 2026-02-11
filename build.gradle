@@ -1,0 +1,33 @@
+/*
+ * Copyright (c) 2017 - 2026, The casual project. All rights reserved.
+ *
+ * This software is licensed under the MIT license, https://opensource.org/licenses/MIT
+ */
+
+//-*- coding: utf-8 -*-
+apply from: 'versions.gradle'
+apply from: 'testsourcesets.gradle'
+apply from: 'download.gradle'
+
+defaultTasks 'build'
+
+allprojects{
+  tasks.withType(JavaCompile) { 
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    options.compilerArgs << "-Xlint:all" << "-Werror"
+  }
+  repositories {
+      maven {
+          name = 'Central Portal Snapshots'
+          url = 'https://central.sonatype.com/repository/maven-snapshots/'
+
+          // Only search this repository for the specific dependency group
+          content {
+              includeGroup("se.laz.casual")
+          }
+      }
+      mavenCentral()
+
+  }
+}
