@@ -26,6 +26,14 @@ On server:
 `cat /etc/rancher/k3s/k3s.yaml`
 Copy contents into `~/.kube/config`
 
+Add the namespace into the configuration.
+
+kubectl config set-context --current --namespace default
+
+Check file manually to check the namespace is set.
+
+cat ~/.kube/config
+
 replace hostname with ip (issue with my local dns)
 
 `kubectl get all`
