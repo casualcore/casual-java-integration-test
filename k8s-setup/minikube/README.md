@@ -96,3 +96,66 @@ minikube status
 
 minikube stop
 
+## Containerd
+
+minikube start --container-runtime=containerd
+
+## Dashboard
+
+minikube addons enable dashboard
+
+## Registry
+
+minikube addons enable registry
+
+Create pvc.
+cd ./manifests
+kubectl apply -f registry-pvc.yaml
+kubectl patch deployment registry -n kube-system --patch-file registry.json
+
+minikube ssh
+sudo su
+$ cd /etc/containerd/
+$ ls -l
+total 4
+drwxr-xr-x 4 root root   80 Feb 17 09:18 certs.d
+-rw-r--r-- 1 root root 1919 Feb 17 09:01 config.toml
+$ cd certs.d/
+$ ls -l
+total 0
+drwxr-xr-x 2 root root 60 Feb 17 09:19 192.168.39.55:5000
+drwxr-xr-x 2 root root 60 Jan 27 23:01 docker.io
+$ cd 192.168.39.55\:5000/
+$ more hosts.toml
+server = "https://192.168.39.55:5000"
+[host."http://192.168.39.55:5000"]
+capabilities = ["pull","resolve","push"]
+skip_verify = true
+
+systemctl stop containerd
+systemctl start containerd
+
+## Tekton
+
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+kubectl get pods --namespace tekton-pipelines --watch
+
+
+### minikube default build 1.38
+
+minikube start --vm-driver kvm2 --insecure-registry "192.168.0.0/16"
+
+minikube addons enable registry
+
+Create pvc.
+cd ./manifests
+kubectl apply -f registry-pvc.yaml
+kubectl patch deployment registry -n kube-system --patch-file registry.json
+
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+kubectl get pods --namespace tekton-pipelines --watch
+
+
+
