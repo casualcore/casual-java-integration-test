@@ -9,16 +9,11 @@ domain:
         - alias: "casual-inbound"
           connections:
             - address: 0.0.0.0:7771
-              discovery:
-                forward: true
-              note: "discovery will be forward to all outbounds"
     outbound:
       groups:
         - alias: "java"
           connections:
             - address: casual-java-service:7772
-              services:
-                - casual/example/java/echo
   queue:
     note: "Example queue setup."
     default:
