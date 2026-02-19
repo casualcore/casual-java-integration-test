@@ -6,6 +6,7 @@
 
 package se.laz.casual.test
 
+
 import io.fabric8.kubernetes.api.model.Pod
 import jakarta.json.Json
 import jakarta.json.JsonObject
@@ -32,6 +33,7 @@ abstract class AbstractCasualIntegrationTest extends Specification
 
     def setupSpec()
     {
+
         Pod casualPod = CasualResources.SIMPLE_CASUAL_POD.edit(  )
                 .editSpec(  )
                 .editContainer( 0 )
@@ -40,8 +42,43 @@ abstract class AbstractCasualIntegrationTest extends Specification
                 .endSpec(  )
                 .build(  )
 
+//         Following can can be used to mount your own domain configuration.
+//         Currently it replaces with the same as it is built with.
+//
+//        Path replacementFile = new File( "./src/integration/resources/domain.yaml").toPath(  )
+//
+//        String mapName = "test-config-map"
+//        ConfigMap map = new ConfigMapBuilder().withNewMetadata(  )
+//                .withName( mapName )
+//                .addToLabels( RESOURCE_LABEL_NAME, UUID.randomUUID(  ).toString(  ) )
+//                .endMetadata(  )
+//                .addToData( replacementFile.getFileName(  ).toString(  ), Files.readString( replacementFile ) )
+//                .build(  )
+//
+//        casualPod = casualPod.edit(  )
+//                .editSpec(  )
+//                .addNewVolume(  )
+//                .withName( "test" )
+//                .withNewConfigMap(  )
+//                .withName( map.getMetadata(  ).getName(  ) )
+//                .endConfigMap(  )
+//                .endVolume(  )
+//                .editContainer( 0 )
+//                .addNewVolumeMount(  )
+//                .withName("test"  )
+//                .withMountPath( "/test/casual/configuration/domain.yaml" )
+//                .withSubPath( "domain.yaml" )
+//                .endVolumeMount(  )
+//                .endContainer(  )
+//                .endSpec(  )
+//                .build(  )
+//
+//        // Replace with tdk8s 0.0.2-beta to add configmaps.
+//        KubernetesClient client = new KubernetesClientBuilder().build(  )
+//        client.configMaps(  ).resource( map ).serverSideApply(  )
+
         tk = TestKube.newBuilder(  )
-                .addPod( "casual", casualPod )
+                .addPod( CasualResources.SIMPLE_CASUAL_POD_NAME, casualPod )
                 .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, CasualJavaResources.SIMPLE_CASUAL_JAVA_POD )
                 .addService( "casual-svc", CasualResources.SIMPLE_CASUAL_SERVICE )
                 .addService( "casual-java-svc", CasualJavaResources.SIMPLE_CASUAL_JAVA_SERVICE )
@@ -258,5 +295,40 @@ abstract class AbstractCasualIntegrationTest extends Specification
         response != null
         response.statusCode(  ) == 500
         response.body(  ).contains( "TPENOENT" )
+    }
+
+    def "Call inbound echo casual to casual java."()
+    {
+        given:
+        String payload = "This is what i want to echo back."
+        String serviceName = "casual/example/java/commit"
+        String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
+
+        String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String[] command = ["sh", "-c", actualCommand ]
+        when:
+        ExecResult result = tk.getController(  ).executeCommand( pod, command )
+
+        then:
+        result.getExitCode(  ) == 0
+        result.getOutput(  ) == payload
+    }
+
+    def "Call echo service inbound for java via outbound call to casual."()
+    {
+        given:
+        String payload = "This is the message to echo."
+        HttpResponse<String> response
+
+        when:
+        try( KubeConnection con = tk.getConnection( "casual-java-svc", 8080 ) )
+        {
+            response = Http.post( con, "/casual/casual%2Fexample%2Fjava%2Fecho", "application/casual-x-octet", payload )
+        }
+
+        then:
+        response != null
+        response.statusCode(  ) == 200
+        response.body(  ) == payload
     }
 }
