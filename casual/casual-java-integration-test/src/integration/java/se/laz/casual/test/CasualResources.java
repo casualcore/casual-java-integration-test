@@ -50,7 +50,7 @@ public class CasualResources
                     .endReadinessProbe()
                     .addNewEnv()
                         .withName( "CASUAL_LOG_PATH" )
-                        .withValue( "/logs" )
+                        .withValue( "/tmp/casual.log" )
                     .endEnv()
                 .endContainer()
             .endSpec()
