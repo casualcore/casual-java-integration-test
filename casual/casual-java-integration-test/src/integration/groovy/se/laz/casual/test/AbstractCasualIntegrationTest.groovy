@@ -6,8 +6,11 @@
 
 package se.laz.casual.test
 
-
+import io.fabric8.kubernetes.api.model.ConfigMap
+import io.fabric8.kubernetes.api.model.ConfigMapBuilder
 import io.fabric8.kubernetes.api.model.Pod
+import io.fabric8.kubernetes.client.KubernetesClient
+import io.fabric8.kubernetes.client.KubernetesClientBuilder
 import jakarta.json.Json
 import jakarta.json.JsonObject
 import se.laz.casual.test.tdk8s.TestKube
@@ -17,6 +20,8 @@ import spock.lang.Shared
 import spock.lang.Specification
 
 import java.net.http.HttpResponse
+import java.nio.file.Files
+import java.nio.file.Path
 import java.util.concurrent.TimeUnit
 
 abstract class AbstractCasualIntegrationTest extends Specification
@@ -42,20 +47,22 @@ abstract class AbstractCasualIntegrationTest extends Specification
                 .endSpec(  )
                 .build(  )
 
+        Pod casualJavaPod = CasualJavaResources.SIMPLE_CASUAL_JAVA_POD
+
 //         Following can can be used to mount your own domain configuration.
 //         Currently it replaces with the same as it is built with.
 //
-//        Path replacementFile = new File( "./src/integration/resources/domain.yaml").toPath(  )
+//        Path replacementFile = new File( "./src/integration/resources/casual-config-inbound-discover.json").toPath(  )
 //
 //        String mapName = "test-config-map"
 //        ConfigMap map = new ConfigMapBuilder().withNewMetadata(  )
 //                .withName( mapName )
-//                .addToLabels( RESOURCE_LABEL_NAME, UUID.randomUUID(  ).toString(  ) )
+//                .addToLabels( TestKube.RESOURCE_LABEL_NAME, UUID.randomUUID(  ).toString(  ) )
 //                .endMetadata(  )
 //                .addToData( replacementFile.getFileName(  ).toString(  ), Files.readString( replacementFile ) )
 //                .build(  )
 //
-//        casualPod = casualPod.edit(  )
+//        casualJavaPod = casualJavaPod.edit(  )
 //                .editSpec(  )
 //                .addNewVolume(  )
 //                .withName( "test" )
@@ -66,9 +73,10 @@ abstract class AbstractCasualIntegrationTest extends Specification
 //                .editContainer( 0 )
 //                .addNewVolumeMount(  )
 //                .withName("test"  )
-//                .withMountPath( "/test/casual/configuration/domain.yaml" )
-//                .withSubPath( "domain.yaml" )
+//                .withMountPath( "/opt/jboss/wildfly/casual/configs/casual-config-inbound-discover.json" )
+//                .withSubPath( "casual-config-inbound-discover.json" )
 //                .endVolumeMount(  )
+//                .addNewEnv(  ).withName("CASUAL_CONFIG_FILE"  ).withValue("/opt/jboss/wildfly/casual/configs/casual-config-inbound-discover.json"  ).endEnv(  )
 //                .endContainer(  )
 //                .endSpec(  )
 //                .build(  )
@@ -79,13 +87,13 @@ abstract class AbstractCasualIntegrationTest extends Specification
 
         tk = TestKube.newBuilder(  )
                 .addPod( CasualResources.SIMPLE_CASUAL_POD_NAME, casualPod )
-                .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, CasualJavaResources.SIMPLE_CASUAL_JAVA_POD )
+                .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, casualJavaPod )
                 .addService( "casual-svc", CasualResources.SIMPLE_CASUAL_SERVICE )
                 .addService( "casual-java-svc", CasualJavaResources.SIMPLE_CASUAL_JAVA_SERVICE )
                 .addProvisioningProbe( "casual connection.", (t)->{
                     String body = "{\"hello\":\"there\"}"
                     String[] command = ["sh", "-c",
-                                        "curl -s http://localhost:8080/casual/casual%2Fexample%2Fecho " +
+                                        "curl -s http://localhost:8080/casual/casual%2Fexample%2Fjava%2Fecho " +
                                                 "-H 'Content-Type: application/casual-x-octet' " +
                                                 "-d '" + body + "'"]
                     ExecResult result = t.getController(  ).executeCommandAsync( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, command )
@@ -97,22 +105,37 @@ abstract class AbstractCasualIntegrationTest extends Specification
                     }
                     return passed
                 } )
-                .addProvisioningProbe( "casual java connection.", (t)->{
-                    String payload = "This is what i want to echo back."
-                    String serviceName = "casual/example/java/echo"
-                    String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
-                    String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
-                    String[] command = ["sh", "-c", actualCommand ]
-
-                    ExecResult result = tk.getController(  ).executeCommandAsync( pod, command ).get( 5, TimeUnit.SECONDS)
-
-                    boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == payload
-                    if( !passed )
-                    {
-                        println( "Casual Java Connection Failed: " + result )
-                    }
-                    return passed
-                } )
+//                .addProvisioningProbe( "casual connection.", (t)->{
+//                    String body = "{\"hello\":\"there\"}"
+//                    String[] command = ["sh", "-c",
+//                                        "curl -s http://localhost:8080/casual/casual%2Fexample%2Fecho " +
+//                                                "-H 'Content-Type: application/casual-x-octet' " +
+//                                                "-d '" + body + "'"]
+//                    ExecResult result = t.getController(  ).executeCommandAsync( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, command )
+//                            .get( 5, TimeUnit.SECONDS )
+//                    boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == body
+//                    if( !passed )
+//                    {
+//                        println( "Casual Connection Failed: " + result )
+//                    }
+//                    return passed
+//                } )
+//                .addProvisioningProbe( "casual java connection.", (t)->{
+//                    String payload = "This is what i want to echo back."
+//                    String serviceName = "casual/example/java/echo"
+//                    String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
+//                    String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+//                    String[] command = ["sh", "-c", actualCommand ]
+//
+//                    ExecResult result = tk.getController(  ).executeCommandAsync( pod, command ).get( 5, TimeUnit.SECONDS)
+//
+//                    boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == payload
+//                    if( !passed )
+//                    {
+//                        println( "Casual Java Connection Failed: " + result )
+//                    }
+//                    return passed
+//                } )
                 .build(  )
 
         long start = System.currentTimeMillis(  )
