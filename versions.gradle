@@ -13,7 +13,7 @@ ext.libs = [
   javaee_api: 'jakarta.platform:jakarta.jakartaee-api:10.0.0',
 
   // integration test
-  tdk8s: 'se.laz.casual:test-kube:0.0.1-beta',
+  tdk8s: 'se.laz.casual:test-kube:0.0.2-beta',
 
   // for spock
   groovy_bom: 'org.apache.groovy:groovy-bom:4.0.5',
