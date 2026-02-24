@@ -90,9 +90,31 @@ abstract class AbstractCasualIntegrationTest extends Specification
                                                 "-d '" + body + "'"]
                     ExecResult result = t.getController(  ).executeCommandAsync( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, command )
                             .get( 5, TimeUnit.SECONDS )
-                    return result.getExitCode(  ) == 0 && result.getOutput() == body
+                    boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == body
+                    if( !passed )
+                    {
+                        println( "Casual Connection Failed: " + result )
+                    }
+                    return passed
+                } )
+                .addProvisioningProbe( "casual java connection.", (t)->{
+                    String payload = "This is what i want to echo back."
+                    String serviceName = "casual/example/java/echo"
+                    String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
+                    String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+                    String[] command = ["sh", "-c", actualCommand ]
+
+                    ExecResult result = tk.getController(  ).executeCommandAsync( pod, command ).get( 5, TimeUnit.SECONDS)
+
+                    boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == payload
+                    if( !passed )
+                    {
+                        println( "Casual Java Connection Failed: " + result )
+                    }
+                    return passed
                 } )
                 .build(  )
+
         long start = System.currentTimeMillis(  )
         tk.init(  )
         long end = System.currentTimeMillis(  )
@@ -100,7 +122,8 @@ abstract class AbstractCasualIntegrationTest extends Specification
     }
 
     def cleanupSpec()
-    {   long start = System.currentTimeMillis(  )
+    {
+        long start = System.currentTimeMillis(  )
         tk.destroy(  )
         long end = System.currentTimeMillis(  )
         println( "Destroy duration: " + ( end - start ) )
@@ -301,7 +324,7 @@ abstract class AbstractCasualIntegrationTest extends Specification
     {
         given:
         String payload = "This is what i want to echo back."
-        String serviceName = "casual/example/java/commit"
+        String serviceName = "casual/example/java/echo"
         String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
 
         String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
