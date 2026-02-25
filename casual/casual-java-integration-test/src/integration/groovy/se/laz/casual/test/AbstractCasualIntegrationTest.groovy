@@ -264,7 +264,7 @@ abstract class AbstractCasualIntegrationTest extends Specification
     def "Check service list casual."()
     {
         when:
-        String[] command = ["sh", "-c", "casual service --list-services" ]
+        String[] command = ["sh", "-c", "export CASUAL_LOG_PATH=/tmp/casual.log && casual service --list-services" ]
         ExecResult result = tk.getController(  ).executeCommand( "casual", command )
 
         then:
@@ -350,7 +350,7 @@ abstract class AbstractCasualIntegrationTest extends Specification
         String serviceName = "casual/example/java/echo"
         String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
 
-        String actualCommand = """echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = """export CASUAL_LOG_PATH=/tmp/casual.log && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
