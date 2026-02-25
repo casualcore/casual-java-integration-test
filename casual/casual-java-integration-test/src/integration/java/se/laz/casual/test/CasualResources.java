@@ -48,6 +48,10 @@ public class CasualResources
                             .endPort()
                         .endTcpSocket()
                     .endReadinessProbe()
+                    .addNewEnv()
+                        .withName( "CASUAL_LOG_PATH" )
+                        .withValue( "/tmp/casual.log" )
+                    .endEnv()
                 .endContainer()
             .endSpec()
             .build();
