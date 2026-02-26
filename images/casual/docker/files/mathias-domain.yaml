@@ -1,0 +1,39 @@
+domain:
+  default:
+    server:
+      instances: 1
+      restart: false
+  gateway:
+    inbound:
+      groups:
+        - alias: "casual-inbound"
+          connections:
+            - address: 0.0.0.0:7771
+              discovery:
+                forward: true
+              note: "discovery will be forward to all outbounds"
+    outbound:
+      groups:
+        - alias: "java"
+          connections:
+            - address: wildfly-inbound:7772
+              services:
+                - casual/example/java/echo
+
+  name: test-domain
+  servers:
+    - instances: 1
+      note: exampleserver
+      path: ${CASUAL_HOME}/example/bin/casual-example-server
+      arguments: [ --sleep, 10s, --forward, casual/example/java/echo]
+
+  executables:
+    - alias: casual-inbound-server
+      arguments:
+        - -c
+        - ${CASUAL_HOME}/nginx/conf/nginx.conf
+        - -p
+        - ${CASUAL_HOME}/nginx
+      instances: 1
+      note: nginx frontend
+      path: ${CASUAL_HOME}/nginx/sbin/nginx

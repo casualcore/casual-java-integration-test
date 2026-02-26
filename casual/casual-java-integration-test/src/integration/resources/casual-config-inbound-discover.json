@@ -1,0 +1,10 @@
+{
+  "inbound": {
+    "startup": {
+      "mode": "discover",
+      "services": [
+        "casual/example/java/echo"
+      ]
+    }
+  }
+}

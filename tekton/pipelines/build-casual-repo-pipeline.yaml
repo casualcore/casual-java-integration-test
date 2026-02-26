@@ -45,6 +45,8 @@ spec:
       params:
         - name: DOCKERFILE
           value: ./images/casual/docker/Dockerfile
+        - name: CONTEXT
+          value: ./images/casual/docker/
         - name: IMAGE
           value: $(params.image-registry)/$(params.casual-image.name):$(params.casual-image.version)
         - name: BUILD_ARGS
