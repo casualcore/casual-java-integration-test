@@ -18,5 +18,11 @@ correct location of the registry.
 If you want you can use the following script to perform this automatically:
 
 ```shell
-./updateImageRegsitry.sh 192.168.168.106:5000 192.168.68.130:5000
+./updateImageRegsitry.sh 192.168.68.130:5000
+```
+
+or for minikube:
+
+```shell
+./updateImageRegistry.sh $(minikube ip)
 ```
