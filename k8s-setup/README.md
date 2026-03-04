@@ -9,3 +9,14 @@ flavours of kubernetes.
 * KiND ?
 * GitHub Actions ?
 * AWS ?
+
+## Image Registry
+
+Once the `k8s` image registry is setup you need to update a few files in this repository with the
+correct location of the registry.
+
+If you want you can use the following script to perform this automatically:
+
+```shell
+./updateImageRegsitry.sh 192.168.168.106:5000 192.168.68.130:5000
+```

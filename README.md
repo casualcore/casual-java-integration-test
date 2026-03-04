@@ -14,9 +14,9 @@ All tests that are run here are expected to be run prior to/ in conjunction with
 and a release.
 
 The answer to the question of which tests have been run for a given release must always
-be "All the tests.". Any other answer becomes too quickly too complicated.
+be "All the tests.". Any other answer becomes too quickly very complicated.
 
-The integration tests are limited to function tests and do not include non functional tests.
+These integration tests are limited to functional tests and do not include non functional tests.
 
 ## Approach
 
@@ -95,7 +95,7 @@ the `revision` parameter for the respective repositories:
 
 There is also an optional `build` parameter for 3 of the repositories, which determines if the artifacts
 used in the image should be built or not. If they are not built - the version of the repository revision
-is determined from the `versions.gradle` and used to download the artifacts from maven.
+is determined from the `versions.gradle` and used to download the artifacts from maven central.
 
 The `image-registry` parameter should be set according to your k8s configuration.
 
@@ -168,4 +168,12 @@ A common issue occurs when the default namespace in the client `~/.kube/config` 
 Use the following command to ensure this is set:
 ```shell
 kubectl config set-context --current --namespace default
+```
+
+If you have an issue where you stop / kill the JVM running integration tests, resulting in cleanup not running.
+You can delete the `k8s` resources that remain using the following commands:
+
+```shell
+kubectl delete all -l tdk8s
+kubectl delete cm -l tdk8s
 ```

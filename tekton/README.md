@@ -18,7 +18,7 @@ kubectl get pods --namespace tekton-pipelines --watch
 ```
 
 ## Tasks
-Where possible existing tekton tasks from tekton hub are used.
+Where possible existing tekton tasks from artifact hub are used.
 When a custom task is required it is provided within the `tasks` folder.
 
 The required tasks, both from the hub and tasks folder are installed into 
