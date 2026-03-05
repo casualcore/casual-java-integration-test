@@ -12,12 +12,6 @@ domain:
               discovery:
                 forward: true
               note: "discovery will be forward to all outbounds"
-              #what is there an additional comment now.
-    outbound:
-      groups:
-        - alias: "java"
-          connections:
-            - address: casual-java-service:7772
   queue:
     note: "Example queue setup."
     default:

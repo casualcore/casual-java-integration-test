@@ -1,0 +1,11 @@
+domain:
+  default:
+    server:
+      instances: 1
+      restart: false
+  gateway:
+    outbound:
+      groups:
+        - alias: "casual-outbound"
+          connections:
+            - address: casual-svc:7771

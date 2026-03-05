@@ -6,13 +6,18 @@
 
 package se.laz.casual.test
 
-
+import io.fabric8.kubernetes.api.model.ConfigMap
+import io.fabric8.kubernetes.api.model.Pod
 import se.laz.casual.test.tdk8s.TestKube
 import se.laz.casual.test.tdk8s.connection.KubeConnection
+import se.laz.casual.test.tdk8s.resources.ConfigMapFactory
+import se.laz.casual.test.tdk8s.resources.FileMount
+import se.laz.casual.test.tdk8s.resources.VolumeMounter
 import spock.lang.Shared
 import spock.lang.Specification
 
 import java.net.http.HttpResponse
+import java.nio.file.Paths
 
 class CasualJavaIntegrationTest extends Specification
 {
@@ -22,8 +27,25 @@ class CasualJavaIntegrationTest extends Specification
 
     def setupSpec()
     {
+        Pod pod = CasualJavaResources.SIMPLE_CASUAL_JAVA_POD
+
+        ConfigMap config = ConfigMapFactory.fromFile( "casual-java-config", Paths.get( "src/integration/resources/casual-config-inbound-discover.json") )
+        String configFile = "/opt/jboss/wildfly/casual-config.json"
+        FileMount fileMount = FileMount.newBuilder(  ).configMap( config ).mountPath( configFile ).build(  )
+        pod = VolumeMounter.mount( pod, fileMount )
+
+        pod = pod.edit(  ).editSpec(  ).editContainer( 0 )
+                .addNewEnv(  )
+                    .withName( "CASUAL_CONFIG_FILE" )
+                    .withValue( configFile )
+                .endEnv(  )
+                .endContainer(  )
+                .endSpec(  )
+                .build(  )
+
         tk = TestKube.newBuilder(  )
-                .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, CasualJavaResources.SIMPLE_CASUAL_JAVA_POD )
+                .addConfigMap( "casual-java-config", config )
+                .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME,  pod )
                 .addService( "casual-java-svc", CasualJavaResources.SIMPLE_CASUAL_JAVA_SERVICE )
                 .build(  )
         long start = System.currentTimeMillis(  )
