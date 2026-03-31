@@ -66,13 +66,6 @@ public class CasualResources
                     .withImage( CASUAL_CONTAINER_IMAGE )
                     .withImagePullPolicy( "Always" )
                     .addNewPort().withContainerPort( CASUAL_CONTAINER_PORT ).endPort()
-//                    .withNewReadinessProbe()
-//                        .withNewTcpSocket()
-//                            .withNewPort()
-//                                .withValue( CASUAL_CONTAINER_PORT )
-//                            .endPort()
-//                        .endTcpSocket()
-//                    .endReadinessProbe()
                 .endContainer()
             .endSpec()
             .build();
