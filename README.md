@@ -3,7 +3,7 @@
 The purpose of this repository is to perform integration testing on casual java.
 
 It provides two main functions:
-* build the images for usage during integration testing.
+* build integration test images.
 * run integration tests.
 
 ## Build Images
@@ -17,28 +17,27 @@ As casual java integration tests need casual-java (jca) and casual (native) imag
 to create both these types of images.
 
 Casual-java (jca) images are built using the desired versions of the different casual java 
-repositories e.g. `casual-java`, `casual-caller` etc are used to build an image to test.
+repositories e.g. `casual-java`, `casual-caller`.
 
 Casual (native) images are built by extending the dockerhub published images to configure the domain.
 
 ## Run Integration Tests
 
-Once the images are built, they can then be tests within the `k8s` compliant cluster using `tdk8s`.
+Once the images are built, they can then be tested within the `k8s` compliant cluster using [`tdk8s`](https://github.com/casualcore/tdk8s).
 
 The concept for integration tests is that they should perform tests that are not possible
 from within unit tests, though should still not take a "long time" to run, ideally less
 than an hour for all integration tests.
 
 Initial integration tests provided include:
-* Test of casual-java (jca) connected to casual (native) version 1.6, 1.7 and 1.8.
+* Test of casual-java (jca) connected to different casual (native) versions (1.6, 1.7 and 1.8).
 * Test of casual-java (jca) fielded.
-* Test of casual (native) version 1.8 against casual (native) version 1.6, 1.7 and 1.8. 
+* Test of casual (native) version 1.8 against different casual (native) versions (1.6, 1.7 and 1.8). 
 
-All tests that are run here are expected to be run prior to/ in conjunction with a PR 
-and a release.
+Integration tests are expected to be run prior to/ in conjunction with a PR and a release.
 
 The answer to the question of which tests have been run for a given release must always
-be "All the tests.". Any other answer becomes too quickly very complicated.
+be "All the tests." Any other answer becomes too quickly very complicated.
 
 These integration tests are limited to functional tests and do not currently include non functional tests.
 
@@ -52,26 +51,24 @@ The integration test images and tests shall run on a simple `k8s` cluster which 
 * Tekton - installed and configured.
 
 The [k8s-setup](k8s-setup/README.md) folder provides some examples for how this can be setup.
-The [tekton](tekton/README.md) folder provides details of how to setup tekton on a k8s cluster.
+The [tekton](tekton/README.md) folder provides details of how to setup tekton on a `k8s` cluster.
 
 ## Build Images
 
 The current integration tests required 4 images:
 
-* 3 casual images - version `1.6`, `1.7`, `1.8` each with a simple `domain.yaml`.
-* 1 casual-java image.
+* 3 casual (native) images - version `1.6`, `1.7`, `1.8` each with a simple `domain.yaml`.
+* 1 casual-java (jca) image.
 
 ### Casual Images
 
 _NB - If you have not already done so, modify the `image-registry` parameter to reflect your `k8s` configuration 
 using the [Image Registry Update Script](./k8s-setup/README.md#image-registry)._
 
-To build the casual images - use the 3 `pipelinerun` files.
-* `pipelinerun/build-casual-repo-pipeline-run-1.6.yaml`
-* `pipelinerun/build-casual-repo-pipeline-run-1.7.yaml`
-* `pipelinerun/build-casual-repo-pipeline-run-1.8.yaml`
+To build the casual images - use the 3 `pipelinerun` files, (can all be run concurrently).
 
 ```shell
+cd ./tekton
 kubectl create -f pipelinerun/build-casual-repo-pipeline-run-1.6.yaml
 kubectl create -f pipelinerun/build-casual-repo-pipeline-run-1.7.yaml
 kubectl create -f pipelinerun/build-casual-repo-pipeline-run-1.8.yaml 
@@ -144,6 +141,7 @@ The example below shows how to build an image with:
 Run the build pipeline using the following:
 
 ```shell
+cd ./tekton
 kubectl create -f pipelinerun/build-casual-java-repo-pipeline-run.yaml
 ```
 
@@ -164,16 +162,16 @@ Once complete delete the pr object to remove the resulting PVC workspaces.
 The integration tests are written using the `tdk8s` framework to managed the provisioning of `k8s` resources
 as needed during the integration tests.
 
-To run the integration tests, ensure that the image registry is configured correctly inside:
+To run the integration tests, ensure that the image registry and image name are configured correctly inside:
 * [CasualJavaResources](casual/casual-java-integration-test/src/integration/java/se/laz/casual/test/CasualJavaResources.java)
 * [CasualResources](casual/casual-java-integration-test/src/integration/java/se/laz/casual/test/CasualResources.java)
 
-To run the integration tests - either run the test from the integration folder.
+To run the integration tests - either run the test from the integration folder using your IDE.
 Or run them using `./gradlew intTest`
 
-### Run Integration Tests in Tekton
+### TODO: Run Integration Tests in Tekton
 
-TODO: run integration tests within a tekton pipeline.
+WIP...
 
 We need to have a service account which has permissions to query the kubernetes api which runs the tekton pipelines.
 
