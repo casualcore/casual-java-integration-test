@@ -4,13 +4,15 @@
  * This software is licensed under the MIT license, https://opensource.org/licenses/MIT
  */
 
-package se.laz.casual.test
+package se.laz.casual.test.jca
 
-class Casual18IntegrationTest extends AbstractCasualIntegrationTest
+import se.laz.casual.test.CasualResources
+
+class Casual17IntegrationTest extends AbstractCasualIntegrationTest
 {
     @Override
     String getCasualImage()
     {
-        return CasualResources.CASUAL_CONTAINER_IMAGE_18
+        return CasualResources.CASUAL_CONTAINER_IMAGE_17
     }
 }

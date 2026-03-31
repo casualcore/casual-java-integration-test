@@ -4,12 +4,15 @@
  * This software is licensed under the MIT license, https://opensource.org/licenses/MIT
  */
 
-package se.laz.casual.test
+package se.laz.casual.test.jca
 
 
 import io.fabric8.kubernetes.api.model.Pod
 import jakarta.json.Json
 import jakarta.json.JsonObject
+import se.laz.casual.test.CasualJavaResources
+import se.laz.casual.test.CasualResources
+import se.laz.casual.test.Http
 import se.laz.casual.test.tdk8s.TestKube
 import se.laz.casual.test.tdk8s.connection.KubeConnection
 import se.laz.casual.test.tdk8s.exec.ExecResult
