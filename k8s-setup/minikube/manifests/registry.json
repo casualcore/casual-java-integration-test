@@ -1,0 +1,27 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "registry",
+            "volumeMounts": [
+              {
+                "mountPath": "/var/lib/registry",
+                "name": "registry-store"
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "registry-store",
+            "persistentVolumeClaim": {
+              "claimName": "docker-registry-pvc"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+/*
+ * Copyright (c) 2017 - 2026, The casual project. All rights reserved.
+ *
+ * This software is licensed under the MIT license, https://opensource.org/licenses/MIT
+ */
+
+apply plugin: "java-library"
+
+sourceSets {
+    downloadCasualJava
+    downloadCasualCaller
+}
+def casualJavaVersion = System.getenv("CASUAL_JAVA_VERSION") ?: "3.3.9"
+def casualCallerVersion = System.getenv("CASUAL_CALLER_VERSION") ?: "3.2.22"
+
+dependencies {
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-api:${casualJavaVersion}"
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-inbound-handler-api:${casualJavaVersion}"
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-service-discovery-extension:${casualJavaVersion}"
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-event-api:${casualJavaVersion}"
+    //https://docs.gradle.org/current/userguide/resolving_specific_artifacts.html @extension to select ear, not jar.
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-jca-app:${casualJavaVersion}@ear"
+    downloadCasualJavaRuntimeOnly "se.laz.casual:casual-inbound-startup-trigger-app:${casualJavaVersion}"
+
+    //https://docs.gradle.org/current/userguide/resolving_specific_artifacts.html @extension to select ear, not jar.
+    downloadCasualCallerRuntimeOnly "se.laz.casual:casual-caller-app:${casualCallerVersion}@ear"
+}
+
+task downloadCasualJava( type: Copy)
+{
+    from sourceSets.downloadCasualJava.runtimeClasspath
+    into 'build/runtime/'
+}
+
+task downloadCasualCaller( type: Copy)
+{
+    from sourceSets.downloadCasualCaller.runtimeClasspath
+    into 'build/runtime/'
+}

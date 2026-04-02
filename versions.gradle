@@ -1,0 +1,26 @@
+
+/*
+ * Copyright (c) 2017 - 2026, The casual project. All rights reserved.
+ *
+ * This software is licensed under the MIT license, https://opensource.org/licenses/MIT
+ */
+
+// casual-java group and version
+group = 'se.laz.casual'
+version = '0.0.1'
+
+ext.libs = [
+  javaee_api: 'jakarta.platform:jakarta.jakartaee-api:10.0.0',
+
+  // integration test
+  tdk8s: 'se.laz.casual:test-kube:0.0.4-beta',
+
+  // for spock
+  groovy_bom: 'org.apache.groovy:groovy-bom:4.0.5',
+  groovy: 'org.apache.groovy:groovy',
+  spock_bom: 'org.spockframework:spock-bom:2.3-groovy-4.0',
+  spock_core: 'org.spockframework:spock-core',
+  spock_junit4: 'org.spockframework:spock-junit4',
+  byte_buddy: 'net.bytebuddy:byte-buddy:1.14.8',
+  objenesis: 'org.objenesis:objenesis:3.4',
+]

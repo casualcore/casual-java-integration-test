@@ -1,0 +1,59 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-casual-repo-pipeline
+spec:
+  workspaces:
+    - name: pipeline-workspace
+  params:
+    - name: repository
+      description: "Repository to build."
+      type: object
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
+    - name: image-registry
+      description: "Image registry url."
+      type: string
+    - name: casual-image
+      description: "Image details for created casual image."
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repository.url)
+        - name: revision
+          value: $(params.repository.revision)
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
+    - name: build-image
+      runAfter:
+        - clone
+      taskRef:
+        name: buildah
+      params:
+        - name: DOCKERFILE
+          value: ./images/casual/docker/Dockerfile
+        - name: CONTEXT
+          value: ./images/casual/docker/
+        - name: IMAGE
+          value: $(params.image-registry)/$(params.casual-image.name):$(params.casual-image.version)
+        - name: BUILD_ARGS
+          value:
+            - "BASE_IMAGE_VERSION=$(params.casual-image.version)"
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
