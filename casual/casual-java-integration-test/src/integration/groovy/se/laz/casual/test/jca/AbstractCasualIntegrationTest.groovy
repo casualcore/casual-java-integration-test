@@ -23,6 +23,9 @@ import spock.lang.Specification
 import java.net.http.HttpResponse
 import java.util.concurrent.TimeUnit
 
+/**
+ * Test suite to run against different versions of casual.
+ */
 abstract class AbstractCasualIntegrationTest extends Specification
 {
 

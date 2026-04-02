@@ -18,7 +18,7 @@ spec:
     - name: casual-image
       value:
         name: "casual"
-        version: "1.8.10"
+        version: "1.8.13"
     - name: repository
       value:
         url: https://github.com/casualcore/casual-java-integration-test.git

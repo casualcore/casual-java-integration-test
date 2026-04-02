@@ -20,7 +20,7 @@ spec:
         revision: "feature/tekton-build"
     - name: repository-casual-java
       value:
-        revision: "3.3.9"
+        revision: "3.4.0"
         build: "false"
     - name: repository-casual-caller
       value:
@@ -33,6 +33,6 @@ spec:
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.3.10-SNAPSHOT"
+        version: "3.4.0-SNAPSHOT"
   pipelineRef:
     name: build-casual-java-repo-pipeline

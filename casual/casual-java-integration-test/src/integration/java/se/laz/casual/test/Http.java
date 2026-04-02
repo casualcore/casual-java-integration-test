@@ -14,6 +14,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Simple HTTP Client for use against a tdk8s connection.
+ */
 public class Http
 {
     public static HttpResponse<String> get( KubeConnection connection, String path, String contentType ) throws IOException, InterruptedException

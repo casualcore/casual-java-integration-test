@@ -21,6 +21,9 @@ import spock.lang.Specification
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
+/**
+ * Test suite to run against different versions of casual.
+ */
 abstract class AbstractCasualOnlyIntegrationTest extends Specification
 {
 
