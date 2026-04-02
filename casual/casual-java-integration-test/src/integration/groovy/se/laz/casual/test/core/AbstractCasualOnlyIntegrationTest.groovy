@@ -73,7 +73,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
                     String serviceName = "casual/example/echo"
                     String pod = "casual-out-only"
 
-                    String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+                    String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
                     String[] command = ["sh", "-c", actualCommand ]
 
                     ExecResult result = t.getController(  ).executeCommandAsync( pod, command )
@@ -129,7 +129,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         given:
         String payload = "Hello there queue."
         String queue = "ex1"
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n "${payload}" | casual buffer --compose | casual queue -e ${queue}"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual queue -e ${queue}"
         String[] command = ["sh", "-c", actualCommand]
         String pod = "casual-out-only"
 
@@ -142,7 +142,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
 
         when:
         String queueId = result.getOutput()
-        actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && casual queue -d ${queue} | casual buffer --extract"""
+        actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && casual queue -d ${queue} | casual buffer --extract"
         command = ["sh", "-c", actualCommand ]
         pod = "casual-in-only"
 
@@ -158,7 +158,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         given:
         String payload = "Hello there queue."
         String queue = "invalid"
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n "${payload}" | casual buffer --compose | casual queue -e ${queue}"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual queue -e ${queue}"
         String[] command = ["sh", "-c", actualCommand ]
         String pod = "casual-out-only"
 
@@ -174,7 +174,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
     {
         given:
         String queue = "invalid"
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && casual queue -d ${queue}"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && casual queue -d ${queue}"
         String[] command = ["sh", "-c", actualCommand ]
         String pod = "casual-out-only"
 
@@ -193,7 +193,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         String serviceName = "casual/example/echo"
         String pod = "casual-out-only"
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
@@ -210,7 +210,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         String serviceName = "casual/example/uppercase"
         String pod = "casual-out-only"
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
@@ -227,7 +227,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         String serviceName = "casual/example/lowercase"
         String pod = "casual-out-only"
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
@@ -244,7 +244,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         String serviceName = "casual/example/invalid"
         String pod = "casual-out-only"
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
@@ -261,7 +261,7 @@ abstract class AbstractCasualOnlyIntegrationTest extends Specification
         String serviceName = "casual/example/error/system"
         String pod = "casual-out-only"
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )

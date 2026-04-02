@@ -279,7 +279,7 @@ abstract class AbstractCasualIntegrationTest extends Specification
         String serviceName = "casual/example/java/echo"
         String pod = CasualResources.SIMPLE_CASUAL_POD_NAME
 
-        String actualCommand = """source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"""
+        String actualCommand = "source \$CASUAL_DOMAIN_HOME/casual.env && echo -n '${payload}' | casual buffer --compose | casual call --service ${serviceName} | casual buffer --extract"
         String[] command = ["sh", "-c", actualCommand ]
         when:
         ExecResult result = tk.getController(  ).executeCommand( pod, command )
