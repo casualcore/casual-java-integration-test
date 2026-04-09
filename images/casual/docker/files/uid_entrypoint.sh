@@ -16,4 +16,4 @@
 # envsubst '${CASUAL_HOME}' < /${CASUAL_DOMAIN_HOME}/configuration/nginx.conf.template > $CASUAL_HOME/nginx/conf/nginx.conf
 
 source /opt/casual/etc/bash_completion.d/casual
-exec env CASUAL_LOG_PATH=/tmp/casual.log casual-domain-manager -c "$CASUAL_DOMAIN_HOME/configuration/domain.yaml"
+exec casual-domain-manager -c "$CASUAL_DOMAIN_HOME/configuration/domain.yaml"
