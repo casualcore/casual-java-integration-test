@@ -14,14 +14,14 @@ spec:
               storage: 1Gi
   params:
     - name: image-registry
-      value: 192.168.68.106:32000
+      value: 192.168.50.178:5000
     - name: repository-casual-java-integration-test
       value:
-        revision: "dev"
+        revision: "feature/mathias"
     - name: repository-casual-java
       value:
-        revision: "3.4.0"
-        build: "false"
+        revision: "fix/service-call-event-marshalling-with-optional-values"
+        build: "true"
     - name: repository-casual-caller
       value:
         revision: "dev"
@@ -33,6 +33,6 @@ spec:
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.4.0-SNAPSHOT"
+        version: "3.4.3"
   pipelineRef:
     name: build-casual-java-repo-pipeline

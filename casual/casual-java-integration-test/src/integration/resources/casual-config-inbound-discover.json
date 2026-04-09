@@ -6,5 +6,9 @@
         "casual/example/java/echo"
       ]
     }
+  },
+  "eventServer":{
+    "portNumber": 7698,
+    "useEpoll": true
   }
 }

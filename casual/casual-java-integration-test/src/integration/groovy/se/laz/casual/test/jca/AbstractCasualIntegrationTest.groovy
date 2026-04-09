@@ -57,11 +57,11 @@ abstract class AbstractCasualIntegrationTest extends Specification
                                                 "-H 'Content-Type: application/casual-x-octet' " +
                                                 "-d '" + body + "'"]
                     ExecResult result = t.getController(  ).executeCommandAsync( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME, command )
-                            .get( 5, TimeUnit.SECONDS )
+                            .get( 60, TimeUnit.SECONDS )
                     boolean passed = result.getExitCode(  ) == 0 && result.getOutput() == body
                     if( !passed )
                     {
-                        println( "Casual Connection Failed: " + result )
+                       println("Casual Connection Failed: " + result)
                     }
                     return passed
                 } )

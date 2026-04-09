@@ -61,15 +61,15 @@ microk8s enable registry
 Replace the registry host and port with your configuration.
 
 ```shell
-sudo mkdir -p /var/snap/microk8s/current/args/certs.d/192.168.68.106:32000
-sudo touch /var/snap/microk8s/current/args/certs.d/192.168.68.106:32000/hosts.toml
+sudo mkdir -p /var/snap/microk8s/current/args/certs.d/192.168.50.178:5000
+sudo touch /var/snap/microk8s/current/args/certs.d/192.168.50.178:5000/hosts.toml
 ```
 
 ```toml
-# /var/snap/microk8s/current/args/certs.d/192.168.68.106:32000/hosts.toml
-server = "http://192.168.68.106:32000"
+# /var/snap/microk8s/current/args/certs.d/192.168.50.178:5000/hosts.toml
+server = "http://192.168.50.178:5000"
 
-[host."http://192.168.68.106:32000"]
+[host."http://192.168.50.178:5000"]
 capabilities = ["pull", "resolve"]
 ```
 

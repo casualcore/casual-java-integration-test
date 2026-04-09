@@ -14,7 +14,7 @@ spec:
               storage: 1Gi
   params:
     - name: image-registry
-      value: 192.168.68.106:32000
+      value: 192.168.50.178:5000
     - name: casual-image
       value:
         name: "casual"
@@ -22,6 +22,6 @@ spec:
     - name: repository
       value:
         url: https://github.com/casualcore/casual-java-integration-test.git
-        revision: "feature/tekton-build"
+        revision: "feature/mathias"
   pipelineRef:
     name: build-casual-repo-pipeline

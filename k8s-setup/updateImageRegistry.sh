@@ -11,7 +11,7 @@ reg=$1
 
 echo "Replacing image registry with: $reg"
 
-find ../casual/casual-java-integration-test/src/ -type f -exec sed -i "s/192.168.68.106:32000/$reg/g" {} \;
-find ../tekton/pipelinerun/ -type f -exec sed -i "s/192.168.68.106:32000/$reg/g" {} \;
+find ../casual/casual-java-integration-test/src/ -type f -exec sed -i "s/192.168.50.178:5000/$reg/g" {} \;
+find ../tekton/pipelinerun/ -type f -exec sed -i "s/192.168.50.178:5000/$reg/g" {} \;
 
 echo "Done."
