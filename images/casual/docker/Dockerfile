@@ -8,4 +8,4 @@ ENV CASUAL_LOG "(error|warning|information)"
 
 COPY files/uid_entrypoint.sh $CASUAL_DOMAIN_HOME/uid_entrypoint.sh
 
-ENTRYPOINT ["$CASUAL_DOMAIN_HOME/uid_entrypoint.sh"]
+ENTRYPOINT $CASUAL_DOMAIN_HOME/uid_entrypoint.sh

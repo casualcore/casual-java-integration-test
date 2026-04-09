@@ -18,4 +18,4 @@
 source /opt/casual/etc/bash_completion.d/casual
 export CASUAL_LOG_PATH=/tmp/casual.log
 
-exec casual-domain-manager -c $CASUAL_DOMAIN_HOME/configuration/domain.yaml
+exec casual-domain-manager -c "$CASUAL_DOMAIN_HOME/configuration/domain.yaml"
