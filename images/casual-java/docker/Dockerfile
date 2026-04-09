@@ -45,6 +45,8 @@ RUN chgrp -R 0 /opt && \
 
 USER 1001
 
+RUN echo 'bazinga!'
+
 EXPOSE 8080 7772 9990 7698
 
 CMD ["/opt/jboss/wildfly/bin/standalone.sh",  "-c", "standalone-full.xml", "--debug", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
