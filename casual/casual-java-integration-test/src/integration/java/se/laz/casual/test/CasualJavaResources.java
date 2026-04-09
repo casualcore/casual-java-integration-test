@@ -36,6 +36,7 @@ public class CasualJavaResources
                     .withImagePullPolicy( "Always" )
                     .addNewPort().withContainerPort( 7771 ).endPort()
                     .addNewPort().withContainerPort( 7772 ).endPort()
+                    .addNewPort().withContainerPort( 7698 ).endPort()
                     .addNewPort().withContainerPort( 8080 ).endPort()
                     .addNewPort().withContainerPort( 9990 ).endPort()
                     .withNewReadinessProbe()
