@@ -21,6 +21,9 @@ COPY files/*.jar $CASUAL_ROOT
 COPY files/*.ear $CASUAL_ROOT
 RUN mkdir $CASUAL_ROOT/configs
 COPY files/configs/* $CASUAL_ROOT/configs
+COPY files/casual-config.json $CASUAL_ROOT/casual-config.json
+
+ENV CASUAL_CONFIG_FILE $CASUAL_ROOT/casual-config.json
 
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casual \
 --resources=/opt/jboss/wildfly/casual/casual-inbound-handler-api-${CASUAL_JAVA_VERSION}.jar\
