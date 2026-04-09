@@ -4,4 +4,8 @@ FROM docker.io/casual/middleware:${BASE_IMAGE_VERSION}
 COPY files/casual.env $CASUAL_DOMAIN_HOME/
 COPY files/domain.yaml $CASUAL_DOMAIN_HOME/configuration/
 
-RUN . $CASUAL_DOMAIN_HOME/casual.env
+ENV CASUAL_LOG "(error|warning|information)"
+
+COPY files/uid_entrypoint.sh $CASUAL_DOMAIN_HOME/uid_entrypoint.sh
+
+ENTRYPOINT ["$CASUAL_DOMAIN_HOME/uid_entrypoint.sh"]
