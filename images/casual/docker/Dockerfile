@@ -4,7 +4,7 @@ FROM docker.io/casual/middleware:${BASE_IMAGE_VERSION}
 USER root
 
 RUN yum update-minimal -y
-RUN yum install -y strace gettext gdb telnet
+RUN yum install -y strace gettext gdb nmap-ncat
 RUN yum clean all -y
 
 USER 1001
