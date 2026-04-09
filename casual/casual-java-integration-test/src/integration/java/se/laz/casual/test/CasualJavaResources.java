@@ -65,6 +65,7 @@ public class CasualJavaResources
                 .addNewPort().withName( "inbound" ).withPort( 7772 ).endPort()
                 .addNewPort().withName( "http" ).withPort( 8080 ).endPort()
                 .addNewPort().withName( "admin" ).withPort( 9990 ).endPort()
+                .addNewPort().withName( "event-server" ).withPort( 7698 ).endPort()
             .endSpec()
             .build();
 }
