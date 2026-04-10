@@ -46,7 +46,7 @@ class CasualJavaIntegrationTest extends Specification
                 .build(  )
 
         tk = TestKube.newBuilder(  )
-                .addConfigMap( "casual-java-config", config )
+                //.addConfigMap( "casual-java-config", config )
                 .addPod( CasualJavaResources.SIMPLE_CASUAL_JAVA_POD_NAME,  pod )
                 .addService( "casual-java-svc", CasualJavaResources.SIMPLE_CASUAL_JAVA_SERVICE )
                 .build(  )

@@ -57,15 +57,16 @@ public class CasualJavaResources
 
     public static final Service SIMPLE_CASUAL_JAVA_SERVICE = new ServiceBuilder()
             .withNewMetadata()
-                .withName( SIMPLE_CASUAL_JAVA_SERVICE_NAME )
+            .withName( SIMPLE_CASUAL_JAVA_SERVICE_NAME )
             .endMetadata()
             .withNewSpec()
-                .addToSelector( SELECTOR )
-                .addNewPort().withName( "output" ).withPort( 7771 ).endPort()
-                .addNewPort().withName( "inbound" ).withPort( 7772 ).endPort()
-                .addNewPort().withName( "http" ).withPort( 8080 ).endPort()
-                .addNewPort().withName( "admin" ).withPort( 9990 ).endPort()
-                .addNewPort().withName( "event-server" ).withPort( 7698 ).endPort()
+            .addToSelector( SELECTOR )
+            .addNewPort().withName( "output" ).withPort( 7771 ).endPort()
+            .addNewPort().withName( "inbound" ).withPort( 7772 ).endPort()
+            .addNewPort().withName( "http" ).withPort( 8080 ).endPort()
+            .addNewPort().withName( "admin" ).withPort( 9990 ).endPort()
+            .addNewPort().withName( "event" ).withPort( 7698 ).endPort()
+            //.withType("LoadBalancer")
             .endSpec()
             .build();
 }
