@@ -12,8 +12,9 @@ ARG CASUAL_CALLER_SRC="casual-caller"
 ARG CASUAL_JAVA_TEST_APPS_SRC="casual-java-test-apps/casual-java-test-app"
 ARG CASUAL_JAVA_INTEGRATION_TEST_SRC="casual-java-integration-test"
 
-ARG CASUAL_JAVA_VERSION=3.3.8
-ARG CASUAL_CALLER_VERSION=3.2.22
+ARG CASUAL_JAVA_VERSION=3.4.3
+ARG CASUAL_CALLER_VERSION=3.3.2
+ARG CASUAL_TEST_APP_VERSION=2.0.5
 
 ENV CASUAL_ROOT /opt/jboss/wildfly/casual
 
@@ -27,7 +28,8 @@ RUN /opt/jboss/wildfly/bin/jboss-cli.sh --command="module add --name=se.laz.casu
 :/opt/jboss/wildfly/casual/casual-fielded-annotations-${CASUAL_JAVA_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-service-discovery-extension-${CASUAL_JAVA_VERSION}.jar\
 :/opt/jboss/wildfly/casual/casual-api-${CASUAL_JAVA_VERSION}.jar\
-:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_JAVA_VERSION}.jar \
+:/opt/jboss/wildfly/casual/casual-event-api-${CASUAL_JAVA_VERSION}.jar\
+:/opt/jboss/wildfly/casual/test-casual-service-handler-${CASUAL_TEST_APP_VERSION}.jar\
     --dependencies=javaee.api,sun.jdk"
 
 ENV WILDFLY_HOME=/opt/jboss/wildfly

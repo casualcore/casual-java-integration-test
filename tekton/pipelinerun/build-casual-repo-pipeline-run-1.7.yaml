@@ -22,6 +22,6 @@ spec:
     - name: repository
       value:
         url: https://github.com/casualcore/casual-java-integration-test.git
-        revision: "feature/tekton-build"
+        revision: "dev"
   pipelineRef:
     name: build-casual-repo-pipeline

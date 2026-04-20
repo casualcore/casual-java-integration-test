@@ -10,8 +10,8 @@ sourceSets {
     downloadCasualJava
     downloadCasualCaller
 }
-def casualJavaVersion = System.getenv("CASUAL_JAVA_VERSION") ?: "3.3.9"
-def casualCallerVersion = System.getenv("CASUAL_CALLER_VERSION") ?: "3.2.22"
+def casualJavaVersion = System.getenv("CASUAL_JAVA_VERSION") ?: "3.4.3"
+def casualCallerVersion = System.getenv("CASUAL_CALLER_VERSION") ?: "3.3.2"
 
 dependencies {
     downloadCasualJavaRuntimeOnly "se.laz.casual:casual-api:${casualJavaVersion}"

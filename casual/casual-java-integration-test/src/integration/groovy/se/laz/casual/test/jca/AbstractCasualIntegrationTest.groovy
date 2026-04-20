@@ -306,4 +306,22 @@ abstract class AbstractCasualIntegrationTest extends Specification
         response.statusCode(  ) == 200
         response.body(  ) == payload
     }
+
+    def "Call some misbehaving services in java, nothing should hang, should get expected errors."(String casualJavaMisbehavingService, String expectedCasualErrorCode) {
+        when:
+        String[] command = ["sh", "-c", "source \$CASUAL_DOMAIN_HOME/casual.env && echo '{}' | casual buffer --compose | casual call --service ${casualJavaMisbehavingService} | casual buffer --extract"]
+        ExecResult result = tk.getController().executeCommand("casual", command)
+
+        then:
+        result.exitCode == 0
+        result.getOutput().contains(expectedCasualErrorCode)
+
+        where:
+        casualJavaMisbehavingService                      | expectedCasualErrorCode
+        "casual/example/java/misbehaving/can-handle"      | "TPENOENT"
+        "casual/example/java/misbehaving/is-available"    | "TPESYSTEM"
+        "casual/example/java/misbehaving/discovery"       | "TPENOENT"
+        "casual/example/java/misbehaving/crashing-buffer" | "TPESYSTEM"
+        "casual/example/java/misbehaving/any"             | "TPESYSTEM"
+    }
 }
