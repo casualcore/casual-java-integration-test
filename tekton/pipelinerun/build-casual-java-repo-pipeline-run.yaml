@@ -20,7 +20,7 @@ spec:
         revision: "dev"
     - name: repository-casual-java
       value:
-        revision: "3.4.0"
+        revision: "dev"
         build: "false"
     - name: repository-casual-caller
       value:
