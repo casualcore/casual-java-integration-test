@@ -17,7 +17,7 @@ public class CasualJavaResources
 {
 
     public static final String CASUAL_JAVA_CONTAINER_NAME = "casual-java";
-    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.68.106:32000/casual-java:3.4.0-SNAPSHOT";
+    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.68.106:32000/casual-java:3.4.5-SNAPSHOT";
     public static final String SIMPLE_CASUAL_JAVA_POD_NAME = "casual-java";
 
     public static final Map<String, String> SELECTOR = Map.of( "app", "casual-java-app" );
@@ -49,7 +49,10 @@ public class CasualJavaResources
                     .addNewEnv().withName( "CASUAL_PORT" ).withValue( "7771" ).endEnv()
                     .addNewEnv().withName( "CASUAL_CALLER_CONNECTION_FACTORY_JNDI_SEARCH_ROOT" ).withValue( "java:/eis" ).endEnv()
                     .addNewEnv().withName( "CASUAL_FIELD_TABLE" ).withValue( "/opt/jboss/wildfly/casual/configs/casual-fields.json" ).endEnv()
+                    .addNewEnv().withName( "CASUAL_NETWORK_OUTBOUND_ENABLE_LOGHANDLER" ).withValue( "true" ).endEnv()
                     .addNewEnv().withName( "CASUAL_OUTBOUND_NETTY_LOGGING_LEVEL" ).withValue( "TRACE" ).endEnv()
+                    .addNewEnv().withName( "CASUAL_NETWORK_INBOUND_ENABLE_LOGHANDLER" ).withValue( "true" ).endEnv()
+                    .addNewEnv().withName( "CASUAL_INBOUND_NETTY_LOGGING_LEVEL" ).withValue( "TRACE" ).endEnv()
                 .endContainer()
             .endSpec()
         .build();

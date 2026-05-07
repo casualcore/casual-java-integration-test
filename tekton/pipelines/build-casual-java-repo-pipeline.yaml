@@ -220,6 +220,7 @@ spec:
           value:
             - "CASUAL_JAVA_VERSION=$(tasks.prepare-image-artifacts.results.casual-java-version)"
             - "CASUAL_CALLER_VERSION=$(tasks.prepare-image-artifacts.results.casual-caller-version)"
+            - "CASUAL_TEST_APP_VERSION=$(tasks.prepare-image-artifacts.results.casual-test-app-version)"
         - name: TLSVERIFY
           value: 'false'
       workspaces:
