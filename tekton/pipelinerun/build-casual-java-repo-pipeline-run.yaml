@@ -17,22 +17,22 @@ spec:
       value: 192.168.68.106:32000
     - name: repository-casual-java-integration-test
       value:
-        revision: "feature/headers-testing"
+        revision: "dev"
     - name: repository-casual-java
       value:
-        revision: "feature/gateway-protocol-v1.5"
-        build: "true"
+        revision: "dev"
+        build: "false"
     - name: repository-casual-caller
       value:
         revision: "dev"
         build: "false"
     - name: repository-casual-java-test-apps
       value:
-        revision: "feature/headers-test"
+        revision: "dev"
         build: "true"
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.4.5-SNAPSHOT"
+        version: "3.4.5"
   pipelineRef:
     name: build-casual-java-repo-pipeline

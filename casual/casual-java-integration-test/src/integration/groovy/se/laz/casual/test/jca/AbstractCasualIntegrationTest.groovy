@@ -6,7 +6,6 @@
 
 package se.laz.casual.test.jca
 
-
 import io.fabric8.kubernetes.api.model.Pod
 import jakarta.json.Json
 import jakarta.json.JsonObject

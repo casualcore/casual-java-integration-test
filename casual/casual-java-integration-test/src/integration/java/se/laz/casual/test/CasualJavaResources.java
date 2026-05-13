@@ -49,10 +49,8 @@ public class CasualJavaResources
                     .addNewEnv().withName( "CASUAL_PORT" ).withValue( "7771" ).endEnv()
                     .addNewEnv().withName( "CASUAL_CALLER_CONNECTION_FACTORY_JNDI_SEARCH_ROOT" ).withValue( "java:/eis" ).endEnv()
                     .addNewEnv().withName( "CASUAL_FIELD_TABLE" ).withValue( "/opt/jboss/wildfly/casual/configs/casual-fields.json" ).endEnv()
-                    .addNewEnv().withName( "CASUAL_NETWORK_OUTBOUND_ENABLE_LOGHANDLER" ).withValue( "true" ).endEnv()
-                    .addNewEnv().withName( "CASUAL_OUTBOUND_NETTY_LOGGING_LEVEL" ).withValue( "TRACE" ).endEnv()
-                    .addNewEnv().withName( "CASUAL_NETWORK_INBOUND_ENABLE_LOGHANDLER" ).withValue( "true" ).endEnv()
-                    .addNewEnv().withName( "CASUAL_INBOUND_NETTY_LOGGING_LEVEL" ).withValue( "TRACE" ).endEnv()
+                    .addNewEnv().withName( "CASUAL_NETWORK_OUTBOUND_ENABLE_LOGHANDLER" ).withValue( "false" ).endEnv()
+                    .addNewEnv().withName( "CASUAL_NETWORK_INBOUND_ENABLE_LOGHANDLER" ).withValue( "false" ).endEnv()
                 .endContainer()
             .endSpec()
         .build();
