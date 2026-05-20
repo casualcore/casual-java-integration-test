@@ -41,6 +41,7 @@ class Casual18IntegrationTest extends AbstractCasualIntegrationTest
         response.headers(  ).firstValue( "test" ).get() == "my header."
     }
 
+    @Ignore //2026-05-20 - Will fail until resolution for issue with casual https://github.com/casualcore/casual/issues/717
     def "Call echo service with headers for outbound call to casual."()
     {
         given:

@@ -17,7 +17,7 @@ public class CasualJavaResources
 {
 
     public static final String CASUAL_JAVA_CONTAINER_NAME = "casual-java";
-    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.68.106:32000/casual-java:3.4.5-SNAPSHOT";
+    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.68.106:32000/casual-java:3.4.5";
     public static final String SIMPLE_CASUAL_JAVA_POD_NAME = "casual-java";
 
     public static final Map<String, String> SELECTOR = Map.of( "app", "casual-java-app" );
