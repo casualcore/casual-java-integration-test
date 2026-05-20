@@ -33,6 +33,6 @@ spec:
     - name: casual-java-image
       value:
         name: "casual-java"
-        version: "3.4.0-SNAPSHOT"
+        version: "3.4.5"
   pipelineRef:
     name: build-casual-java-repo-pipeline

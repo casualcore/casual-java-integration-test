@@ -45,6 +45,8 @@ spec:
       description: Version of casual java artifacts.
     - name: casual-caller-version
       description: Version of casual caller artifacts.
+    - name: casual-test-app-version
+      description: Version of casual test app artifacts.
   steps:
     - name: check-version
       image: $(params.IMAGE)
@@ -53,6 +55,8 @@ spec:
           value: "$(params.casual-java-src)"
         - name: CASUAL_CALLER_SRC
           value: "$(params.casual-caller-src)"
+        - name: CASUAL_TEST_APPS_SRC
+          value: "$(params.casual-java-test-apps-src)"
       workingDir: "$(params.casual-java-integration-test-src)"
       script: |
         #!/usr/bin/bash
@@ -62,6 +66,8 @@ spec:
         echo -n $casual_java_version | tee $(results.casual-java-version.path)
         casual_caller_version=$(grep ^version $CASUAL_CALLER_SRC/versions.gradle | cut -d '=' -f2 | tr -d \ \'\")
         echo -n $casual_caller_version | tee $(results.casual-caller-version.path)
+        casual_test_app_version=$(grep ^version $CASUAL_TEST_APPS_SRC/versions.gradle | cut -d '=' -f2 | tr -d \ \'\")
+        echo -n $casual_test_app_version | tee $(results.casual-test-app-version.path)
     - name: download-artifacts-casual-java
       image: $(params.IMAGE)
       env:

@@ -80,6 +80,14 @@ microk8s stop
 microk8s start
 ```
 
+### Change Host IP
+
+If you change your IP address, you will need to update these settings accordingly.
+You will also need to update your certificates as well as refresh your kubectl config.
+
+```shell
+sudo microk8s refresh-certs -e ca.crt
+```
 
 ## Dashboard
 
@@ -88,3 +96,4 @@ If you want to use the dashboard, enable the following plugin:
 ```shell
 microk8s enable dashboard
 ```
+

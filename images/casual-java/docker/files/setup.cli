@@ -12,6 +12,9 @@ set CASUAL_ROOT=${env.CASUAL_ROOT}
 set CASUAL_HOST=${env.CASUAL_HOST}
 set CASUAL_PORT=${env.CASUAL_PORT}
 
+# enable netty logging
+/subsystem=logging/logger=io.netty:add(level=INFO)
+
 # global module
 /subsystem=ee:list-add(name=global-modules, value={name=se.laz.casual})
 
