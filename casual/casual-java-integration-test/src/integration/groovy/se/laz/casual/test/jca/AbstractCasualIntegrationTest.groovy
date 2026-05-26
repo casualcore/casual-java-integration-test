@@ -117,6 +117,31 @@ abstract class AbstractCasualIntegrationTest extends Specification
         response.body(  ) == "test-domain\0"
     }
 
+    def "Call multiple services."()
+    {
+        given:
+        String payload = "hi there"
+        HttpResponse<String> response
+
+        when:
+        try( KubeConnection con = tk.getConnection( "casual-java-svc", 8080 ) )
+        {
+            response = Http.post( con, "/casual/"+serviceName, "application/casual-x-octet", payload )
+        }
+
+        then:
+        response != null
+        response.statusCode(  ) == httpCode
+
+        where:
+        serviceName                         | httpCode
+        "casual%2Fexample%2Fdomain%2Fname"  | 200
+        "casual%2Fexample%2Flowercase"      | 200
+        "casual%2Fexample%2Ferror%2Fsystem" | 500
+        "casual%2Fexample%2Fdomain%2Fname"  | 200
+        "casual%2Fexample%2Flowercase"      | 200
+    }
+
     def "Call lowercase service for outbound call to casual."()
     {
         given:
