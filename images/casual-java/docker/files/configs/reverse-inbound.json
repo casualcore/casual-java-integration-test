@@ -1,0 +1,18 @@
+{
+  "reverseInbound":[
+    {
+      "address": {
+        "host": "casual-java-reverse-outbound-service",
+        "port": 7773
+      }
+    }
+  ],
+  "inbound": {
+    "startup": {
+      "mode": "discover",
+      "services": [
+        "casual/example/java/echo"
+      ]
+    }
+  }
+}

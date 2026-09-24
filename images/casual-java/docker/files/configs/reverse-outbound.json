@@ -1,0 +1,8 @@
+{
+  "reverseOutbound": [
+    {
+      "name": "reverse-outbound",
+      "port": 7773
+    }
+  ]
+}
