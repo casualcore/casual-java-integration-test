@@ -24,5 +24,5 @@ If you want you can use the following script to perform this automatically:
 or for minikube:
 
 ```shell
-./updateImageRegistry.sh $(minikube ip)
+./updateImageRegistry.sh $(minikube ip):5000
 ```
