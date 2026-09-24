@@ -1,8 +1,6 @@
 ARG BASE_IMAGE_VERSION=39.0.1.Final-2-jdk21
 FROM quay.io/wildfly/wildfly:${BASE_IMAGE_VERSION}
 
-RUN echo "### BUILDING REVERSE-OUTBOUND CAPABLE IMAGE ###"
-
 USER 1001
 
 RUN mkdir /opt/jboss/wildfly/casual
