@@ -24,5 +24,6 @@ dependencies {
     testImplementation platform(libs.spock_bom)
     testImplementation libs.spock_core
     testImplementation libs.byte_buddy
-    testImplementation libs.objenesis
+    testImplementation libs.spock_junit4
+    testImplementation libs.junit_platform_launcher
 }

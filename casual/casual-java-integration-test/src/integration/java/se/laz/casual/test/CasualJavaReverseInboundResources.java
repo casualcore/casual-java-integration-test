@@ -17,7 +17,7 @@ public class CasualJavaReverseInboundResources
 {
 
     public static final String CASUAL_JAVA_CONTAINER_NAME = "casual-java";
-    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.39.162:5000/casual-java:3.7.1";
+    public static final String CASUAL_JAVA_CONTAINER_IMAGE = "192.168.39.162:5000/casual-java:3.7.3-casual-caller";
     public static final String SIMPLE_CASUAL_JAVA_POD_NAME = "casual-java-reverse-inbound";
 
     public static final Map<String, String> SELECTOR = Map.of( "app", "casual-java-reverse-inbound-app" );
