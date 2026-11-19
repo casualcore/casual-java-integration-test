@@ -33,6 +33,7 @@ Initial integration tests provided include:
 * Test of casual-java (jca) connected to different casual (native) versions (1.6, 1.7 and 1.8).
 * Test of casual-java (jca) fielded.
 * Test of casual (native) version 1.8 against different casual (native) versions (1.6, 1.7 and 1.8). 
+* Test of casual-java (jca) connected to different casual-java (jcd) versions () //TODO: Tests should be bidirectional.
 
 Integration tests are expected to be run prior to/ in conjunction with a PR and a release.
 
@@ -98,11 +99,25 @@ To build the casual java image 4 repositories are required:
 * `casual-test-apps` - test application to be used within integration testing.
 
 For each of these repositories you can specify which git branch or tag you wish to build from using
-the `revision` parameter for the respective repositories:
+the `revision` parameter for the respective repositories.
 
 There is also an optional `build` parameter for 3 of the repositories, which determines if the artifacts
 used in the image should be built or not. If they are not built - the version of the repository revision
 is determined from the `versions.gradle` and used to download the artifacts from maven central.
+
+The default version of java used to run builds is 21, this is set based on the build image used. If you need
+a different version this can be set using the `build-image` parameter. NB - It is not possible to have multiple
+different versions of java in the same build. 
+
+| java            | os              | build-image                                                                                                             |
+|-----------------|-----------------|-------------------------------------------------------------------------------------------------------------------------|
+| jdk17 (old)     | redhat?         | docker.io/library/gradle:jdk17@sha256:27ed98487dd9c155d555955084dfd33f32d9f7ac5a90a79b1323ab002a1a8b6e                  |
+| jdk17           | ubuntu resolute | docker.io/library/eclipse-temurin:17-jdk-resolute@sha256:c99aee09fe34c2799ff50e6c22c0a16a22f8710bc8e415b5574efca08ee58e10 |
+| jdk17           | ubi 10 minimal  | docker.io/library/eclipse-temurin:17-jdk-ubi10-minimal@sha256:23863b9f7982d7418fdab7cb48dddde492455ff52254402928dd262a2fac55da |
+| jdk21 (default) | ubuntu resolute | docker.io/library/eclipse-temurin:21-jdk-resolute@sha256:c775c38419b7decaeb04d1bad0d43724eb9b9da04a81d68d25a0327b45e4598b |
+| jdk21           | ubi 10 minimal  | docker.io/library/eclipse-temurin:21-jdk-ubi10-minimal@sha256:99f2355da072604f23a998566fc3ec733d55075787a4370586d1a97c221e0b18 |
+| jdk25           | ubuntu resolute | docker.io/library/eclipse-temurin:25-jdk-resolute@sha256:16b53b71df609d3ce064b73f1d5cd869f34563dacbdfc06f038a6634385e1ab1 |
+| jdk25           | ubuntu resolute | docker.io/library/eclipse-temurin:25-jdk-ubi10-minimal@sha256:1c55fe6fae2477238531089daa7ee3a479f1fa8ad1ae7ab31c143f1b04cd3224 |
 
 The `image-registry` parameter should be set according to your k8s configuration (see note above).
 

@@ -5,6 +5,7 @@ metadata:
 spec:
   workspaces:
     - name: pipeline-workspace
+    - name: pipeline-build-cache
   params:
     - name: repository-casual-java-integration-test
       description: "Repository for casual-java-integration-test."
@@ -60,6 +61,10 @@ spec:
     - name: image-registry
       description: "Image registry url."
       type: string
+    - name: build-image
+      description: "Image to use for building repository artifacts."
+      type: string
+      default: docker.io/library/eclipse-temurin:17-jdk-ubi10-minimal@sha256:23863b9f7982d7418fdab7cb48dddde492455ff52254402928dd262a2fac55da
     - name: casual-java-image
       description: "Image details for created casual-java image."
       type: object
@@ -129,6 +134,8 @@ spec:
       params:
         - name: PROJECT_DIR
           value: "./casual-java"
+        - name: GRADLE_IMAGE
+          value: "$(params.build-image)"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS
@@ -138,6 +145,8 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+        - name: cache
+          workspace: pipeline-build-cache
       when:
         - input: "$(params.repository-casual-java.build)"
           operator: in
@@ -150,6 +159,8 @@ spec:
       params:
         - name: PROJECT_DIR
           value: "./casual-caller"
+        - name: GRADLE_IMAGE
+          value: "$(params.build-image)"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS
@@ -159,6 +170,8 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+        - name: cache
+          workspace: pipeline-build-cache
       when:
         - input: "$(params.repository-casual-caller.build)"
           operator: in
@@ -171,6 +184,8 @@ spec:
       params:
         - name: PROJECT_DIR
           value: "./casual-java-test-apps/casual-java-test-app"
+        - name: GRADLE_IMAGE
+          value: "$(params.build-image)"
         - name: GRADLE_COMMAND
           value: "./gradlew"
         - name: TASKS
@@ -180,6 +195,8 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+        - name: cache
+          workspace: pipeline-build-cache
       when:
         - input: "$(params.repository-casual-java-test-apps.build)"
           operator: in
@@ -195,6 +212,8 @@ spec:
       params:
         - name: PROJECT_DIR
           value: "./casual-java-test-apps/casual-java-test-app"
+        - name: IMAGE
+          value: "$(params.build-image)"
         - name: built-casual-java
           value: "$(params.repository-casual-java.build)"
         - name: built-casual-caller
@@ -204,6 +223,8 @@ spec:
       workspaces:
         - name: source
           workspace: pipeline-workspace
+        - name: cache
+          workspace: pipeline-build-cache
     - name: build-image
       runAfter:
         - prepare-image-artifacts

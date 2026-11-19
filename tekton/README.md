@@ -38,3 +38,25 @@ To install the pipeline into the cluster run the following:
 ./deploy-tekton-pipeline.sh
 ```
 
+## Multiple binding pvc
+
+It is not possible by default to share multiple pvcs with pipelineruns and taskruns.
+This is due to issues with availability zones in cloud providers where pods might not be able to access the same pvc if they are
+scheduled in different availability zones. Therefore tekton tries to keep taskruns in the same node if they have a pvc. This is not possible
+if there are multiple pvcs though.
+
+https://tekton.dev/docs/pipelines/workspaces/#availability-zones
+
+There is however a tekton feature flag called coscehdule which has a default value of `workspaces`, which can be changes to `pipelineruns`, which will
+allow mounting of multiple pvcs.
+Typical use case is a single node cluster with minikube and microk8s - so changing this should have no impact.
+
+https://tekton.dev/docs/pipelines/additional-configs/#customizing-the-pipelines-controller-behavior
+
+kubectl edit configmap feature-flags -n tekton-pipelines
+
+update and save change:
+
+`coscheulde: pipelineruns`
+
+Changes will take effect with next run.

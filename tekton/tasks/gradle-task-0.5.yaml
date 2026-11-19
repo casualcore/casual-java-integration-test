@@ -3,7 +3,7 @@ kind: Task
 metadata:
   name: gradle
   labels:
-    app.kubernetes.io/version: "0.4"
+    app.kubernetes.io/version: "0.5"
   annotations:
     tekton.dev/pipelines.minVersion: "0.17.0"
     tekton.dev/displayName: Gradle
@@ -20,6 +20,8 @@ spec:
     - name: gradle-config
       description: The workspace consisting of the custom gradle properties provided by the user.
       optional: true
+    - name: cache
+      description: The workspace consisting of the gradle cache
   params:
     - name: GRADLE_IMAGE
       description: Gradle base image.
@@ -43,7 +45,7 @@ spec:
       image: $(params.GRADLE_IMAGE)
       env:
         - name: GRADLE_USER_HOME
-          value: "/home/gradle"
+          value: $(workspaces.cache.path)
       workingDir: $(workspaces.source.path)/$(params.PROJECT_DIR)
       args:
         - "$(params.TASKS)"
@@ -58,7 +60,7 @@ spec:
           fi
         fi
 
-        cmd="$(params.GRADLE_COMMAND) $*"
+        cmd="$(params.GRADLE_COMMAND) --no-daemon $*"
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"

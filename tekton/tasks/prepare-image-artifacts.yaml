@@ -10,6 +10,8 @@ spec:
   workspaces:
     - name: source
       description: The workspace consisting of the gradle project.
+    - name: cache
+      description: The workspace consisting of the gradle cache
   params:
     - name: IMAGE
       description: Gradle base image.
@@ -75,13 +77,15 @@ spec:
           value: "$(params.casual-java-integration-test-src)"
         - name: DESTINATION
           value: "$(params.artifact-destination)"
+        - name: GRADLE_USER_HOME
+          value: $(workspaces.cache.path)
       workingDir: "$(params.casual-java-integration-test-src)"
       script: |
         #!/usr/bin/bash
-        set -e        
+        set -e             
         export CASUAL_JAVA_VERSION=$(cat $(results.casual-java-version.path))
         echo "CASUAL_JAVA_VERSION: " $CASUAL_JAVA_VERSION
-        cmd="./gradlew downloadCasualJava"
+        cmd="./gradlew --no-daemon downloadCasualJava"
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
@@ -121,13 +125,15 @@ spec:
           value: "$(params.casual-java-integration-test-src)"
         - name: DESTINATION
           value: "$(params.artifact-destination)"
+        - name: GRADLE_USER_HOME
+          value: $(workspaces.cache.path)
       workingDir: "$(params.casual-java-integration-test-src)"
       script: |
         #!/usr/bin/bash
         set -e
         export CASUAL_CALLER_VERSION=$(cat $(results.casual-caller-version.path))
         echo "CASUAL_CALLER_VERSION: " $CASUAL_CALLER_VERSION
-        cmd="./gradlew downloadCasualCaller"
+        cmd="./gradlew --no-daemon downloadCasualCaller"
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
