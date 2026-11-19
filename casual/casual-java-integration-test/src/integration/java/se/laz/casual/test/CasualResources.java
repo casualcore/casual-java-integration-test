@@ -17,9 +17,9 @@ public class CasualResources
 {
 
     public static final String CASUAL_CONTAINER_NAME = "casual";
-    public static final String CASUAL_CONTAINER_IMAGE_16 = "192.168.68.106:32000/casual:1.6.18";
-    public static final String CASUAL_CONTAINER_IMAGE_17 = "192.168.68.106:32000/casual:1.7.10";
-    public static final String CASUAL_CONTAINER_IMAGE_18 = "192.168.68.106:32000/casual:1.8.15";
+    public static final String CASUAL_CONTAINER_IMAGE_16 = "127.0.0.1:32000/casual:1.6.18";
+    public static final String CASUAL_CONTAINER_IMAGE_17 = "127.0.0.1:32000/casual:1.7.10";
+    public static final String CASUAL_CONTAINER_IMAGE_18 = "127.0.0.1:32000/casual:1.8.15";
     public static final String CASUAL_CONTAINER_IMAGE = CASUAL_CONTAINER_IMAGE_18;
 
     public static final int CASUAL_CONTAINER_PORT = 7771;
