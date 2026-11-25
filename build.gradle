@@ -13,8 +13,8 @@ defaultTasks 'build'
 
 allprojects{
   tasks.withType(JavaCompile) { 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     options.compilerArgs << "-Xlint:all" << "-Werror"
   }
   repositories {
@@ -30,4 +30,14 @@ allprojects{
       mavenCentral()
 
   }
+}
+
+subprojects{
+    java {
+        // Use JDK 21 for compilation, tests, and Javadoc even when Gradle runs on a newer JDK.
+        // This keeps Java 21 compatibility checks reproducible across build environments.
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
 }
