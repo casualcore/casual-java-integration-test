@@ -172,6 +172,20 @@ kubectl get tr -w
 
 Once complete delete the pr object to remove the resulting PVC workspaces.
 
+#### Versions
+
+To provide regression testing, the following versions of the casual-java image are required:
+
+| Version  |  casual-java | casual-caller | gateway protocol         |
+|----------| -------------|---------------|--------------------------|
+| 3.2.46   |  3.2.46      | 3.2.19        | 1.0,1.1,1.2              | 
+| 3.3.9    |  3.3.9       | 3.3.2         | 1.0,1.1,1.2              |
+| 3.4.8    |  3.4.8       | 3.3.3         | 1.0,1.1,1.2,1.3,1.4,1.5  |
+| 3.5.1    |  3.5.1       | 3.3.3         | 1.0,1.1,1.2,1.3,1.4,1.5  |
+| 3.7.4    |  3.7.4       | 3.4.4         | 1.0,1.1,1.2,1.3,1.4,1.5  |
+| 3.8.0    |  3.8.0       | 3.5.0         | 1.0,1.1,1.2,1.3,1.4,1.5  |
+
+
 ## Run Integration Tests
 
 The integration tests are written using the `tdk8s` framework to managed the provisioning of `k8s` resources

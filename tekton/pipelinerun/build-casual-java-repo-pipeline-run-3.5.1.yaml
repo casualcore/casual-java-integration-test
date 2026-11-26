@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-casual-java-repo-pipeline-run-
+spec:
+  workspaces:
+    - name: pipeline-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: pipeline-build-cache
+      persistentVolumeClaim:
+        claimName: build-cache-pvc
+  params:
+    - name: build-image
+      value: docker.io/library/eclipse-temurin:17-jdk-ubi10-minimal@sha256:23863b9f7982d7418fdab7cb48dddde492455ff52254402928dd262a2fac55da
+    - name: image-registry
+      value: 192.168.1.93:32000
+    - name: repository-casual-java-integration-test
+      value:
+        revision: "feature/casual-java-versions-matrix"
+    - name: repository-casual-java
+      value:
+        revision: "3.5.1"
+        build: "true"
+    - name: repository-casual-caller
+      value:
+        revision: "3.3.3"
+        build: "false"
+    - name: repository-casual-java-test-apps
+      value:
+        revision: "dev"
+        build: "true"
+    - name: casual-java-image
+      value:
+        name: "casual-java"
+        version: "3.5.1"
+  pipelineRef:
+    name: build-casual-java-repo-pipeline
